@@ -2,7 +2,7 @@
 
 namespace MP40.DAL.Repositories
 {
-    internal abstract class Repository<T> : IRepository<T>
+    public abstract class Repository<T> : IRepository<T>
     {
         protected RwaMoviesContext dbContext;
 

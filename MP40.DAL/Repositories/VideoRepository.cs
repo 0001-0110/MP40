@@ -3,7 +3,7 @@ using MP40.DAL.Models;
 
 namespace MP40.DAL.Repositories
 {
-    internal class VideoRepository : Repository<Video>
+    public class VideoRepository : Repository<Video>
     {
         public VideoRepository(RwaMoviesContext rwaMoviesContext) : base(rwaMoviesContext) { }
 
