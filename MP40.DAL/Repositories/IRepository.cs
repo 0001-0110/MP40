@@ -8,7 +8,7 @@
 
         void Create(T entity);
 
-        void Edit(T entity);
+        void Edit(int id, T entity);
 
         void Delete(T entity);
     }

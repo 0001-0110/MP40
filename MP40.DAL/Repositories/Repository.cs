@@ -17,7 +17,7 @@ namespace MP40.DAL.Repositories
 
         public abstract void Create(T entity);
 
-        public abstract void Edit(T entity);
+        public abstract void Edit(int id, T entity);
 
         public abstract void Delete(T entity);
     }

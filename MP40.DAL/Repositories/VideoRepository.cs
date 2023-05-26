@@ -23,7 +23,7 @@ namespace MP40.DAL.Repositories
             dbContext.SaveChanges();
         }
 
-        public override void Edit(Video entity)
+        public override void Edit(int id, Video entity)
         {
             throw new NotImplementedException();
         }
