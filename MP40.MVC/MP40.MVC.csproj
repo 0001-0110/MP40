@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MP40.DAL\MP40.DAL.csproj" />
+    <ProjectReference Include="..\MP40.BLL\MP40.BLL.csproj" />
   </ItemGroup>
 
 </Project>
