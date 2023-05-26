@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "MP4._0": {
+    "MP40": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
