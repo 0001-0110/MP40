@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models;
 
-public partial class Genre
+public partial class Genre : IModel
 {
     public int Id { get; set; }
 
