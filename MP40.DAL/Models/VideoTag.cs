@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models;
 
-public partial class VideoTag : IModel
+public partial class VideoTag : IDalModel
 {
     public int Id { get; set; }
 

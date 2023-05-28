@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models;
 
-public partial class Notification : IModel
+public partial class Notification : IDalModel
 {
     public int Id { get; set; }
 

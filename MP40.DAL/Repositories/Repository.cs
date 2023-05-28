@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace MP40.DAL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class, IModel
+    public class Repository<T> : IRepository<T> where T : class, IDalModel
     {
         protected RwaMoviesContext dbContext;
 
@@ -16,7 +16,7 @@ namespace MP40.DAL.Repositories
         public Repository(RwaMoviesContext rwaMoviesContext)
         {
             dbContext = rwaMoviesContext;
-            property = dbContext.GetType().GetProperty(typeof(DbSet<T>)) ?? 
+            property = dbContext.GetType().GetProperty(typeof(DbSet<T>)) ??
                 throw new Exception("No corresponding property inside the dbContext");
         }
 
