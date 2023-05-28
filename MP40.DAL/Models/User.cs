@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models;
 
-public partial class User
+public partial class User : IDalModel
 {
     public int Id { get; set; }
 

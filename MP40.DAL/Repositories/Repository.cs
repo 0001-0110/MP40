@@ -1,24 +1,52 @@
-﻿using MP40.DAL.DataBaseContext;
+﻿using Microsoft.EntityFrameworkCore;
+using MP40.DAL.DataBaseContext;
+using MP40.DAL.Extensions;
+using MP40.DAL.Models;
+using System.Reflection;
 
 namespace MP40.DAL.Repositories
 {
-    public abstract class Repository<T> : IRepository<T>
+    public class Repository<T> : IRepository<T> where T : class, IDalModel
     {
         protected RwaMoviesContext dbContext;
+
+        // The property inside dbContext to fetch data from
+        private readonly PropertyInfo property;
 
         public Repository(RwaMoviesContext rwaMoviesContext)
         {
             dbContext = rwaMoviesContext;
+            property = dbContext.GetType().GetProperty(typeof(DbSet<T>)) ??
+                throw new Exception("No corresponding property inside the dbContext");
         }
 
-        public abstract IEnumerable<T> GetAll();
+        private DbSet<T> Values => (DbSet<T>)property.GetValue(dbContext)!;
 
-        public abstract T? GetById(int id);
+        public virtual IEnumerable<T> GetAll()
+        {
+            return Values;
+        }
 
-        public abstract void Create(T entity);
+        public virtual T? GetById(int id)
+        {
+            return Values.SingleOrDefault(video => video.Id == id);
+        }
 
-        public abstract void Edit(int id, T entity);
+        public virtual void Create(T entity)
+        {
+            Values.Add(entity);
+            dbContext.SaveChanges();
+        }
 
-        public abstract void Delete(T entity);
+        public virtual void Edit(int id, T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Delete(T entity)
+        {
+            Values.Remove(entity);
+            dbContext.SaveChanges();
+        }
     }
 }
