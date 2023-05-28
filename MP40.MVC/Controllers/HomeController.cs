@@ -2,7 +2,7 @@
 using MP40.Public.Models;
 using System.Diagnostics;
 
-namespace MP40.Public.Controllers
+namespace MP40.MVC.Controllers
 {
     public class HomeController : Controller
     {
