@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mappy\Mappy.csproj" />
     <ProjectReference Include="..\MP40.DAL\MP40.DAL.csproj" />
   </ItemGroup>
 
