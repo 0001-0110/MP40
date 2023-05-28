@@ -26,7 +26,7 @@
 
         public string? SecurityToken { get; set; }
 
-        public int CountryOfResidenceId { get; set; }
+        //public int CountryOfResidenceId { get; set; }
 
         public virtual Country CountryOfResidence { get; set; } = null!;
     }
