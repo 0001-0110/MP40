@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MP40.Public.Models;
+using MP40.MVC.Models;
 using System.Diagnostics;
 
-namespace MP40.Public.Controllers
+namespace MP40.MVC.Controllers.Public
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         public IActionResult Index()
