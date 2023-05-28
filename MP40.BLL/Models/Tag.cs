@@ -6,6 +6,6 @@
 
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
+        public virtual ICollection<Video> VideoTags { get; set; } = new List<Video>();
     }
 }
