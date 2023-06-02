@@ -5,7 +5,8 @@ using MP40.BLL.Services;
 namespace MP40.Controllers
 {
     [ApiController]
-    public class Controller<T> : ControllerBase where T : IBllModel
+    [Route("api/[controller]s")]
+    public abstract class Controller<T> : ControllerBase where T : IBllModel
     {
         protected readonly ILogger<Controller<T>> logger;
         protected readonly IDataService dataService;
