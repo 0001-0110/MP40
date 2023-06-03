@@ -1,14 +1,24 @@
 ﻿using MP40.BLL.Models;
+using MP40.DAL.Repositories;
 
 namespace MP40.BLL.Services
 {
     public class DataService : IDataService
     {
+        IRepositoryCollection repositoryCollection;
+
+        public DataService(IRepositoryCollection repositoryCollection) 
+        {
+            this.repositoryCollection = repositoryCollection;  
+        }
+
         #region Generics
 
         public IEnumerable<T> GetAll<T>() where T : IBllModel
         {
+            var repository = repositoryCollection.GetRepository<DAL.Models.Country>();
             throw new NotImplementedException();
+            //return repositoryCollection.GetRepository<T>().GetAll<T>();
         }
 
         public T? GetById<T>(int id) where T : IBllModel

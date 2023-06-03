@@ -3,8 +3,8 @@ using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
-    public class GenreController : Controller<Genre>
+    public class GenreController : ModelController<Genre>
     {
-        public GenreController(ILogger<Controller<Genre>> logger, IDataService dataService) : base(logger, dataService) { }
+        public GenreController(ILogger<ModelController<Genre>> logger, IDataService dataService) : base(logger, dataService) { }
     }
 }

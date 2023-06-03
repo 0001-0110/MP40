@@ -4,9 +4,9 @@ using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
-    public class VideoController : Controller<Video>
+    public class VideoController : ModelController<Video>
     {
-        public VideoController(ILogger<Controller<Video>> logger, IDataService dataService) : base(logger, dataService) { }
+        public VideoController(ILogger<ModelController<Video>> logger, IDataService dataService) : base(logger, dataService) { }
 
         [HttpGet("[action]")]
         public ActionResult<IEnumerable<Video>> Search(int page = 0, int pageSize = 0, string? name = null, string? orderedBy = null)
