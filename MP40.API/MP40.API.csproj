@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MP40.BLL\MP40.BLL.csproj" />
+    <ProjectReference Include="..\Mappy\Mappy.csproj" />
   </ItemGroup>
 
 </Project>

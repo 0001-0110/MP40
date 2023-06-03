@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MP40.DAL\MP40.DAL.csproj" />
-    <ProjectReference Include="..\Mappy\Mappy.csproj" />
-  </ItemGroup>
-
 </Project>
