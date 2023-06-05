@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MP40.DAL\MP40.DAL.csproj" />
-    <ProjectReference Include="..\Mappy\Mappy.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

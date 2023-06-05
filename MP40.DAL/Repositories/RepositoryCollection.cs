@@ -13,7 +13,7 @@ namespace MP40.DAL.Repositories
         {
             repositories = new Dictionary<Type, object>();
             // Get all models
-            foreach (Type? modelType in Assembly.GetExecutingAssembly().GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IDalModel))))
+            foreach (Type? modelType in Assembly.GetExecutingAssembly().GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IModel))))
             {
                 // Create the corresponding repository
                 Type repositoryInstance = typeof(Repository<>).MakeGenericType(modelType);
@@ -21,9 +21,14 @@ namespace MP40.DAL.Repositories
             }
         }
 
-        public IRepository<T>? GetRepository<T>() where T : class, IDalModel
+        public object? GetRepository(Type modelType)
         {
-            return repositories.GetValueOrDefault(typeof(T)) as IRepository<T>;
+            return repositories.GetValueOrDefault(modelType);
+        }
+
+        public IRepository<T>? GetRepository<T>() where T : class, IModel
+        {
+            return GetRepository(typeof(T)) as IRepository<T>;
         }
     }
 }

@@ -1,44 +1,48 @@
-﻿using MP40.BLL.Models;
+﻿using MP40.DAL.Models;
 using MP40.DAL.Repositories;
 
 namespace MP40.BLL.Services
 {
     public class DataService : IDataService
     {
-        IRepositoryCollection repositoryCollection;
+        private IRepositoryCollection repositoryCollection;
 
-        public DataService(IRepositoryCollection repositoryCollection) 
+        public DataService(IRepositoryCollection repositoryCollection)
         {
-            this.repositoryCollection = repositoryCollection;  
+            this.repositoryCollection = repositoryCollection;
         }
 
         #region Generics
 
-        public IEnumerable<T> GetAll<T>() where T : IBllModel
+        public IEnumerable<T> GetAll<T>() where T : class, IModel
         {
-            var repository = repositoryCollection.GetRepository<DAL.Models.Country>();
-            throw new NotImplementedException();
-            //return repositoryCollection.GetRepository<T>().GetAll<T>();
+            return repositoryCollection.GetRepository<T>()!.GetAll();
         }
 
-        public T? GetById<T>(int id) where T : IBllModel
+        public T? GetById<T>(int id) where T : class, IModel
         {
-            throw new NotImplementedException();
+            return repositoryCollection.GetRepository<T>()!.GetById(id);
         }
 
-        public bool Create<T>(T model) where T : IBllModel
+        public bool Create<T>(T model) where T : class, IModel
         {
-            throw new NotImplementedException();
+            repositoryCollection.GetRepository<T>()!.Create(model);
+            return true;
         }
 
-        public bool Edit<T>(int id, T model) where T : IBllModel
+        public bool Edit<T>(int id, T model) where T : class, IModel
         {
-            throw new NotImplementedException();
+            repositoryCollection.GetRepository<T>()!.Edit(id, model);
+            return true;
         }
 
-        public bool Delete<T>(int id) where T : IBllModel
+        public bool Delete<T>(int id) where T : class, IModel
         {
-            throw new NotImplementedException();
+            T? entity = GetById<T>(id);
+            if (entity == null)
+                return false;
+            repositoryCollection.GetRepository<T>()!.Delete(entity);
+            return true;
         }
 
         #endregion

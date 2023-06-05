@@ -1,16 +1,22 @@
-﻿namespace Mappy
+﻿using System.Reflection;
+
+namespace Mappy
 {
-    // I know that I just could have used AutoMapper, but where is the fun in that ?
     public class Mapper : IMapper
     {
-        public Mapper(MappingProfile profile) 
+        public TDestination Map<TSource, TDestination>(TSource source) where TSource : class where TDestination : class, new()
         {
-
-        }
-
-        public TDestination Map<TDestination>(object source)
-        {
-            throw new NotImplementedException();
+            TDestination destination = new TDestination();
+            Type destinationType = typeof(TDestination);
+            foreach (PropertyInfo sourceProperty in source.GetType().GetProperties())
+            {
+                PropertyInfo? destinationProperty = destinationType.GetProperty(sourceProperty.Name);
+                if (destinationProperty != null
+                    && destinationProperty.CanWrite
+                    && destinationProperty.PropertyType == sourceProperty.PropertyType)
+                    destinationProperty.SetValue(destination, sourceProperty.GetValue(source));
+            }
+            return destination;
         }
     }
 }

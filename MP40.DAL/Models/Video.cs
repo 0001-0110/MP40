@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models;
 
-public partial class Video : IDalModel
+public partial class Video : IModel
 {
     public int Id { get; set; }
 

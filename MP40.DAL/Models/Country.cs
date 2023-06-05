@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models;
 
-public partial class Country : IDalModel
+public partial class Country : IModel
 {
     public int Id { get; set; }
 

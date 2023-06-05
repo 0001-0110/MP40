@@ -23,11 +23,11 @@ namespace MP40.API
             // Configure JWT services
             builder.Services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(o =>
+                .AddJwtBearer(options =>
                 {
-                    var jwtKey = builder.Configuration["JWT:Key"];
-                    var jwtKeyBytes = Encoding.UTF8.GetBytes(jwtKey);
-                    o.TokenValidationParameters = new TokenValidationParameters
+                    string jwtKey = builder.Configuration["JWT:Key"];
+                    byte[] jwtKeyBytes = Encoding.UTF8.GetBytes(jwtKey);
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidIssuer = builder.Configuration["JWT:Issuer"],
