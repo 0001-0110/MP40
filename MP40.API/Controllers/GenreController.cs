@@ -1,5 +1,5 @@
-﻿using MP40.BLL.Services;
-using MP40.DAL.Models;
+﻿using MP40.BLL.Models;
+using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {

@@ -1,6 +1,6 @@
-﻿namespace MP40.DAL.Models
+﻿namespace MP40.BLL.Models
 {
-    public partial class Image : IDalModel
+    public partial class Image : IBllModel
     {
         public int Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MP40.BLL.Models;
 using MP40.BLL.Services;
-using MP40.DAL.Models;
 
 namespace MP40.Controllers
 {

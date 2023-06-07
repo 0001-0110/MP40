@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace MP40.DAL.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class, IModel
+    public class Repository<T> : IRepository<T> where T : class, IDalModel
     {
         protected RwaMoviesContext dbContext;
 

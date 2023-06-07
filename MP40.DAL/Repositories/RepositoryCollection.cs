@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using MP40.DAL.DataBaseContext;
+﻿using MP40.DAL.DataBaseContext;
 using MP40.DAL.Models;
 using System.Reflection;
 
@@ -13,7 +12,7 @@ namespace MP40.DAL.Repositories
         {
             repositories = new Dictionary<Type, object>();
             // Get all models
-            foreach (Type? modelType in Assembly.GetExecutingAssembly().GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IModel))))
+            foreach (Type? modelType in Assembly.GetExecutingAssembly().GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IDalModel))))
             {
                 // Create the corresponding repository
                 Type repositoryInstance = typeof(Repository<>).MakeGenericType(modelType);
@@ -26,7 +25,7 @@ namespace MP40.DAL.Repositories
             return repositories.GetValueOrDefault(modelType);
         }
 
-        public IRepository<T>? GetRepository<T>() where T : class, IModel
+        public IRepository<T>? GetRepository<T>() where T : class, IDalModel
         {
             return GetRepository(typeof(T)) as IRepository<T>;
         }

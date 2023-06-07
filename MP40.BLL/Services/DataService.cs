@@ -1,48 +1,68 @@
-﻿using MP40.DAL.Models;
+﻿using MP40.BLL.Mapping;
+using MP40.BLL.Models;
 using MP40.DAL.Repositories;
 
 namespace MP40.BLL.Services
 {
     public class DataService : IDataService
     {
+        // TODO
+        private IBijectiveMapper<BllMapperProfile> mapper;
         private IRepositoryCollection repositoryCollection;
 
-        public DataService(IRepositoryCollection repositoryCollection)
+        public DataService(IBijectiveMapper<BllMapperProfile> mapper, IRepositoryCollection repositoryCollection)
         {
+            this.mapper = mapper;
             this.repositoryCollection = repositoryCollection;
         }
 
         #region Generics
 
-        public IEnumerable<T> GetAll<T>() where T : class, IModel
+        private void InvokeRepository<TModel>(string methodName, params object[]? arguments) where TModel : class, IBllModel
         {
-            return repositoryCollection.GetRepository<T>()!.GetAll();
+            InvokeRepository<TModel, object>(methodName, arguments);
         }
 
-        public T? GetById<T>(int id) where T : class, IModel
+        private TResult? InvokeRepository<TModel, TResult>(string methodName, params object[]? arguments) where TModel : class, IBllModel
         {
-            return repositoryCollection.GetRepository<T>()!.GetById(id);
+            Type modelType = mapper.GetMappedType(typeof(TModel))!;
+            object? repository = repositoryCollection.GetRepository(modelType);
+            return (TResult?)repository?.GetType().GetMethod(methodName)?.Invoke(repository, arguments);
         }
 
-        public bool Create<T>(T model) where T : class, IModel
+        public IEnumerable<T> GetAll<T>() where T : class, IBllModel
         {
-            repositoryCollection.GetRepository<T>()!.Create(model);
-            return true;
+            IEnumerable<object>? result = InvokeRepository<T, IEnumerable<object>>("GetAll")!;
+            return mapper.MapRange<T>(result);
         }
 
-        public bool Edit<T>(int id, T model) where T : class, IModel
+        public T? GetById<T>(int id) where T : class, IBllModel
         {
-            repositoryCollection.GetRepository<T>()!.Edit(id, model);
-            return true;
+            object? result = InvokeRepository<T, object>("GetById", id);
+            return mapper.Map<T>(result);
         }
 
-        public bool Delete<T>(int id) where T : class, IModel
+        public bool Create<T>(T model) where T : class, IBllModel
         {
-            T? entity = GetById<T>(id);
+            InvokeRepository<T>("Create", model);
+            throw new NotImplementedException();
+        }
+
+        public bool Edit<T>(int id, T model) where T : class, IBllModel
+        {
+            InvokeRepository<T>("Edit", id, model);
+            throw new NotImplementedException();
+        }
+
+        public bool Delete<T>(int id) where T : class, IBllModel
+        {
+            /*T? entity = GetById<T>(id);
             if (entity == null)
                 return false;
             repositoryCollection.GetRepository<T>()!.Delete(entity);
-            return true;
+            return true;*/
+            InvokeRepository<T>("Delete", id);
+            throw new NotImplementedException();
         }
 
         #endregion

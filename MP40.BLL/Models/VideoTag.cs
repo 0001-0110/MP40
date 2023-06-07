@@ -1,6 +1,6 @@
-﻿namespace MP40.DAL.Models
+﻿namespace MP40.BLL.Models
 {
-    public partial class VideoTag : IDalModel
+    public partial class VideoTag : IBllModel
     {
         public int Id { get; set; }
 

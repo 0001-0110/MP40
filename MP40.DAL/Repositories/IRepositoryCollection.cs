@@ -6,6 +6,6 @@ namespace MP40.DAL.Repositories
     {
         object? GetRepository(Type type);
 
-        IRepository<T>? GetRepository<T>() where T : class, IModel;
+        IRepository<T>? GetRepository<T>() where T : class, IDalModel;
     }
 }

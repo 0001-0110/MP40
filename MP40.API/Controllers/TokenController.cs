@@ -4,7 +4,7 @@ using MP40.BLL.Models.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace Task04.Controllers
+namespace MP40.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -1,6 +1,6 @@
 ﻿namespace MP40.DAL.Models
 {
-    public interface IModel
+    public interface IDalModel
     {
         int Id { get; }
     }

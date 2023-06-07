@@ -2,7 +2,7 @@
 
 namespace MP40.DAL.Repositories
 {
-    public interface IRepository<T> where T : class, IModel
+    public interface IRepository<T> where T : class, IDalModel
     {
         IEnumerable<T> GetAll();
 

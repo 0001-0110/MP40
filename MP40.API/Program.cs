@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MP40.BLL.Mapping;
 using MP40.BLL.Services;
 using MP40.DAL.DataBaseContext;
 using MP40.DAL.Repositories;
 using System.Text;
 
-namespace MP40.API
+namespace MP40
 {
     internal static class Program
     {
@@ -76,6 +77,8 @@ namespace MP40.API
             builder.Services.AddDbContext<RwaMoviesContext>(
             options => { options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); });
             builder.Services.AddScoped<IRepositoryCollection, RepositoryCollection>();
+            builder.Services.AddScoped<BllMapperProfile>();
+            builder.Services.AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>();
             builder.Services.AddScoped<IDataService, DataService>();
 
             WebApplication application = builder.Build();

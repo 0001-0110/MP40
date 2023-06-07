@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MP40.BLL.Services;
-using MP40.DAL.Models;
+using MP40.BLL.Models;
 
 namespace MP40.Controllers
 {
     [ApiController]
     [Authorize]
     [Route("api/[controller]s")]
-    public abstract class ModelController<T> : ControllerBase where T : class, IModel
+    public abstract class ModelController<T> : ControllerBase where T : class, IBllModel
     {
         protected readonly ILogger<ModelController<T>> logger;
         protected readonly IDataService dataService;
@@ -20,6 +20,7 @@ namespace MP40.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<T>> Get()
         {
             return Ok(dataService.GetAll<T>());
