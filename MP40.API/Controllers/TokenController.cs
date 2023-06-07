@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MP40.BLL.Models.Authentication;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
@@ -10,31 +8,20 @@ namespace MP40.Controllers
     [Route("api/[controller]")]
     public class TokenController : ControllerBase
     {
-        // TODO Check if login is valid
-        [HttpPost]
-        public ActionResult<Tokens> GetTokens()
+        private readonly IAuthenticationService authenticationService;
+
+        public TokenController(IAuthenticationService authenticationService)
         {
-            // Get secret key bytes
-            byte[] tokenKey = Encoding.UTF8.GetBytes("JWT:TokenSecretKey");
+            this.authenticationService = authenticationService;
+        }
 
-            // Create a token descriptor (represents a token, kind of a "template" for token)
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Expires = DateTime.UtcNow.AddMinutes(10),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(tokenKey),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            // Create token using that descriptor, serialize it and return it
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            string serializedToken = tokenHandler.WriteToken(token);
-
-            return new Tokens
-            {
-                Token = serializedToken
-            };
+        [HttpPost]
+        public ActionResult<Tokens> GetTokens([FromBody] Credentials credentials)
+        {
+            Tokens? tokens;
+            if (!authenticationService.TryAuthenticate(credentials, out tokens))
+                return Unauthorized(new { error = "Invalid credentials" });
+            return Ok(tokens);
         }
     }
 }

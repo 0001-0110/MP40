@@ -1,5 +1,6 @@
 ﻿namespace MP40.BLL.Models
 {
+    // Should this be in the authentication ?
     public partial class User : IBllModel
     {
         public int Id { get; set; }

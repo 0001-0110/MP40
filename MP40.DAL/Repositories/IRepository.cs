@@ -6,6 +6,8 @@ namespace MP40.DAL.Repositories
     {
         IEnumerable<T> GetAll();
 
+        IEnumerable<T> GetWhere(Predicate<T> predicate);
+
         T? GetById(int id);
 
         void Create(T entity);

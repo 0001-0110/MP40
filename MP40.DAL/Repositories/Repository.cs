@@ -27,6 +27,11 @@ namespace MP40.DAL.Repositories
             return Values;
         }
 
+        public virtual IEnumerable<T> GetWhere(Predicate<T> predicate)
+        {
+            return Values.Where(item => predicate(item));
+        }
+
         public virtual T? GetById(int id)
         {
             return Values.SingleOrDefault(video => video.Id == id);

@@ -11,7 +11,12 @@ namespace MP40.BLL.Mapping
             this.profile = profile;
         }
 
-        public Type? GetMappedType(Type type)
+        public Type GetMappedType(Type type)
+        {
+            return profile.Mappings[type];
+        }
+
+        public Type? GetMappedTypeOrNull(Type type)
         {
             return profile.Mappings.GetValueOrDefault(type);
         }

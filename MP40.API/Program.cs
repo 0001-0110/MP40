@@ -80,6 +80,7 @@ namespace MP40
             builder.Services.AddScoped<BllMapperProfile>();
             builder.Services.AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>();
             builder.Services.AddScoped<IDataService, DataService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             WebApplication application = builder.Build();
 

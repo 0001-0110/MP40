@@ -1,5 +1,6 @@
 ﻿using MP40.BLL.Mapping;
 using MP40.BLL.Models;
+using MP40.BLL.Models.Authentication;
 using MP40.DAL.Repositories;
 
 namespace MP40.BLL.Services
@@ -36,6 +37,12 @@ namespace MP40.BLL.Services
             return mapper.MapRange<T>(result);
         }
 
+        public IEnumerable<T> GetWhere<T>(Predicate<T> predicate) where T : class, IBllModel
+        {
+            IEnumerable<object>? result = InvokeRepository<T, IEnumerable<object>>("GetWhere", predicate)!;
+            return mapper.MapRange<T>(result);
+        }
+
         public T? GetById<T>(int id) where T : class, IBllModel
         {
             object? result = InvokeRepository<T, object>("GetById", id);
@@ -66,6 +73,17 @@ namespace MP40.BLL.Services
         }
 
         #endregion
+
+        public User? GetUser(Credentials credentials)
+        {
+            DAL.Models.User? user = InvokeRepository<User, DAL.Models.User> ("GetWhere", (DAL.Models.User user) => 
+                user.Username == credentials.Username
+                // TODO Handle password hashing
+                && user.PwdHash == credentials.Password
+                && user.IsConfirmed
+                && user.DeletedAt > DateTime.UtcNow);
+            return mapper.Map<User>(user);
+        }
 
         public IEnumerable<Video>? SearchVideos(int page = 0, int pageSize = 0, string? name = null, string? orderedBy = null)
         {

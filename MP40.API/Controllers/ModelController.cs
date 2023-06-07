@@ -20,7 +20,6 @@ namespace MP40.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult<IEnumerable<T>> Get()
         {
             return Ok(dataService.GetAll<T>());
