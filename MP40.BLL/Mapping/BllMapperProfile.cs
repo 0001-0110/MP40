@@ -6,8 +6,7 @@ namespace MP40.BLL.Mapping
     {
         public BllMapperProfile() 
         {
-            CreateMap<DAL.Models.Genre, Genre>();
-            CreateMap<Genre, DAL.Models.Genre>();
+            CreateBijectiveMap<DAL.Models.Genre, Genre>();
         }
     }
 }
