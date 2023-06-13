@@ -6,17 +6,18 @@ namespace MP40.DAL.Repositories
 {
     public class RepositoryCollection : IRepositoryCollection
     {
-        Dictionary<Type, object> repositories;
+        Dictionary<Type, IRepository> repositories;
 
         public RepositoryCollection(RwaMoviesContext dbContext)
         {
-            repositories = new Dictionary<Type, object>();
+            repositories = new Dictionary<Type, IRepository>();
+
             // Get all models
             foreach (Type? modelType in Assembly.GetExecutingAssembly().GetTypes().Where(type => type.GetInterfaces().Contains(typeof(IDalModel))))
             {
                 // Create the corresponding repository
                 Type repositoryInstance = typeof(Repository<>).MakeGenericType(modelType);
-                repositories.Add(modelType, Activator.CreateInstance(repositoryInstance, dbContext)!);
+                repositories.Add(modelType, (IRepository)Activator.CreateInstance(repositoryInstance, dbContext)!);
             }
         }
 
