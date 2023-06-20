@@ -1,12 +1,10 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MP40.BLL.Services;
 using MP40.BLL.Models;
+using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]s")]
     public abstract class ModelController<T> : ControllerBase where T : class, IBllModel
     {

@@ -5,7 +5,7 @@ using MP40.DAL.Repositories;
 
 namespace MP40.BLL.Services
 {
-    public class DataService : IDataService
+	public class DataService : IDataService
     {
         // TODO
         private IBijectiveMapper<BllMapperProfile> mapper;
@@ -28,10 +28,15 @@ namespace MP40.BLL.Services
         {
             Type modelType = mapper.GetMappedType(typeof(TModel))!;
             object? repository = repositoryCollection.GetRepository(modelType);
-            return (TResult?)repository?.GetType().GetMethod(methodName)?.Invoke(repository, arguments);
-        }
+            // This part is necessary to handle overloads
+            // If there is any argument passed, we search the method that has the correct types
+			Type[]? arguementTypes = arguments?.Select(argument => argument.GetType()).ToArray();
+			return arguementTypes == null ?
+                (TResult?)repository?.GetType().GetMethod(methodName)?.Invoke(repository, arguments) :
+				(TResult?)repository?.GetType().GetMethod(methodName, arguementTypes)?.Invoke(repository, arguments);
+		}
 
-        public IEnumerable<T> GetAll<T>() where T : class, IBllModel
+		public IEnumerable<T> GetAll<T>() where T : class, IBllModel
         {
             IEnumerable<object>? result = InvokeRepository<T, IEnumerable<object>>("GetAll")!;
             return mapper.MapRange<T>(result);
@@ -51,37 +56,37 @@ namespace MP40.BLL.Services
 
         public bool Create<T>(T model) where T : class, IBllModel
         {
-            InvokeRepository<T>("Create", model);
-            throw new NotImplementedException();
+            Type mappedType = mapper.GetMappedType(typeof(T));
+            InvokeRepository<T>("Create", mapper.Map(mappedType, model)!);
+            return true;
         }
 
         public bool Edit<T>(int id, T model) where T : class, IBllModel
         {
-            InvokeRepository<T>("Edit", id, model);
-            throw new NotImplementedException();
+            Type mappedType = mapper.GetMappedType(typeof(T));
+            InvokeRepository<T>("Edit", id, mapper.Map(mappedType, model)!);
+            return true;
         }
 
         public bool Delete<T>(int id) where T : class, IBllModel
         {
-            /*T? entity = GetById<T>(id);
-            if (entity == null)
-                return false;
-            repositoryCollection.GetRepository<T>()!.Delete(entity);
-            return true;*/
             InvokeRepository<T>("Delete", id);
-            throw new NotImplementedException();
+            return true;
         }
 
         #endregion
 
         public User? GetUser(Credentials credentials)
         {
-            DAL.Models.User? user = InvokeRepository<User, DAL.Models.User> ("GetWhere", (DAL.Models.User user) => 
+            Func<DAL.Models.User, bool> predicate = user =>
                 user.Username == credentials.Username
                 // TODO Handle password hashing
                 && user.PwdHash == credentials.Password
                 && user.IsConfirmed
-                && user.DeletedAt > DateTime.UtcNow);
+                && !user.DeletedAt.HasValue;
+            // EntityFramework does not like when I call getWhere directly from here, I have no idea why
+            DAL.Models.User? user = InvokeRepository<User, IEnumerable<DAL.Models.User>>("GetAll")?.Where(predicate).SingleOrDefault();
+            //DAL.Models.User? user = InvokeRepository<User, IEnumerable<DAL.Models.User>>("GetWhere", predicate)?.SingleOrDefault();
             return mapper.Map<User>(user);
         }
 

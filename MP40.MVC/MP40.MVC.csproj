@@ -10,4 +10,15 @@
     <ProjectReference Include="..\MP40.BLL\MP40.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Genre\" />
+    <Folder Include="Views\VideoManagement\" />
+    <Folder Include="Views\User\" />
+    <Folder Include="Views\Video\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+  </ItemGroup>
+
 </Project>

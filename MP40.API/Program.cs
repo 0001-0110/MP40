@@ -74,8 +74,8 @@ namespace MP40
                 });
             });
 
-            builder.Services.AddDbContext<RwaMoviesContext>(
-            options => { options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); });
+            builder.Services.AddDbContext<RwaMoviesContext>(options =>
+                { options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); });
             builder.Services.AddScoped<IRepositoryCollection, RepositoryCollection>();
             builder.Services.AddScoped<BllMapperProfile>();
             builder.Services.AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>();

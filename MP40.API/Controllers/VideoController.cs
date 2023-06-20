@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MP40.BLL.Models;
 using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
+    [Authorize]
     public class VideoController : ModelController<Video>
     {
         public VideoController(ILogger<ModelController<Video>> logger, IDataService dataService) : base(logger, dataService) { }

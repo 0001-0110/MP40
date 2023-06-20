@@ -43,9 +43,17 @@ namespace MP40.DAL.Repositories
             dbContext.SaveChanges();
         }
 
-        public virtual void Edit(int id, T entity)
+        public virtual void Edit(int id, T edit)
         {
-            throw new NotImplementedException();
+            // TODO handle nulls
+            T? entity = GetById(id);
+            entity?.CopyDataFrom(edit, true);
+            dbContext.SaveChanges();
+        }
+
+        public virtual void Delete(int id)
+        {
+            Delete(GetById(id)!);
         }
 
         public virtual void Delete(T entity)

@@ -8,6 +8,8 @@ namespace MP40.BLL.Mapping
 
         public Type? GetMappedTypeOrNull(Type type);
 
+        public object? Map(Type type, object model);
+
         public IEnumerable<T> MapRange<T>(IEnumerable<object> values);
     }
 }

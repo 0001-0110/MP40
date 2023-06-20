@@ -26,5 +26,10 @@ namespace MP40.BLL.Mapping
             foreach (object value in values)
                 yield return Map<T>(value);
         }
+
+        public object? Map(Type type, object model)
+        {
+            return GetType().GetMethod("Map", new Type[] { typeof(Type), })?.MakeGenericMethod(type).Invoke(this, new object?[] { model, });
+        }
     }
 }
