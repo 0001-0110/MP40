@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using MP40.BLL.Models;
 using MP40.BLL.Models.Authentication;
 using MP40.BLL.Services;
 using MP40.MVC.Models;
@@ -9,13 +8,18 @@ using System.Security.Claims;
 
 namespace MP40.MVC.Controllers
 {
-    public class LoginController : Controller
+	public class LoginController : Controller
     {
         private IDataService dataService;
 
         public LoginController(IDataService dataService)
         {
             this.dataService = dataService;
+        }
+
+        public IActionResult Index()
+        {
+            return RedirectToAction(nameof(Login));
         }
 
         public IActionResult Login()
