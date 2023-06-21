@@ -6,11 +6,11 @@ using MP40.MVC.Models;
 
 namespace MP40.MVC.Controllers.Administration
 {
-    public class TagController : BaseController
+    public class TagController : BaseCrudController<Tag>
     {
         public TagController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
 
-        public IActionResult Index()
+        /*public IActionResult Index()
         {
             IEnumerable<BLL.Models.Tag> thing = dataService.GetAll<BLL.Models.Tag>();
             var workalready = mapper.Map<IEnumerable<Tag>>(thing);
@@ -54,6 +54,6 @@ namespace MP40.MVC.Controllers.Administration
 			var mappdanstatete = mapper.Map<BLL.Models.Tag>(tag);
 			dataService.Delete<BLL.Models.Tag>(id);
 			return RedirectToAction(nameof(Index));
-		}
+		}*/
 	}
 }

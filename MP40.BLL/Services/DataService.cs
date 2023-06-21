@@ -2,6 +2,7 @@
 using MP40.BLL.Models;
 using MP40.BLL.Models.Authentication;
 using MP40.DAL.Repositories;
+using MP40.DAL.Extensions;
 
 namespace MP40.BLL.Services
 {
@@ -19,27 +20,32 @@ namespace MP40.BLL.Services
 
         #region Generics
 
-        private void InvokeRepository<TModel>(string methodName, params object[]? arguments) where TModel : class, IBllModel
+        private void InvokeRepository<TModel>(string methodName, params object[] arguments) where TModel : class, IBllModel
         {
             InvokeRepository<TModel, object>(methodName, arguments);
         }
 
-        private TResult? InvokeRepository<TModel, TResult>(string methodName, params object[]? arguments) where TModel : class, IBllModel
+        private TResult? InvokeRepository<TModel, TResult>(string methodName, params object[] arguments) where TModel : class, IBllModel
         {
             Type modelType = mapper.GetMappedType(typeof(TModel))!;
             object? repository = repositoryCollection.GetRepository(modelType);
-            // This part is necessary to handle overloads
-            // If there is any argument passed, we search the method that has the correct types
-			Type[]? arguementTypes = arguments?.Select(argument => argument.GetType()).ToArray();
-			return arguementTypes == null ?
-                (TResult?)repository?.GetType().GetMethod(methodName)?.Invoke(repository, arguments) :
-				(TResult?)repository?.GetType().GetMethod(methodName, arguementTypes)?.Invoke(repository, arguments);
+            return (TResult?)repository?.CallMethod(methodName, arguments);
 		}
+
+        public IEnumerable<object>? GetAll(Type type)
+        {
+            return (IEnumerable<object>?)this.CallGeneric(nameof(GetAll), type);
+        }
 
 		public IEnumerable<T> GetAll<T>() where T : class, IBllModel
         {
             IEnumerable<object>? result = InvokeRepository<T, IEnumerable<object>>("GetAll")!;
             return mapper.MapRange<T>(result);
+        }
+
+        public IEnumerable<object>? GetWhere(Type type, object predicate)
+        {
+            return (IEnumerable<object>?)this.CallGeneric(nameof(GetWhere), type, predicate);
         }
 
         public IEnumerable<T> GetWhere<T>(Predicate<T> predicate) where T : class, IBllModel
@@ -48,10 +54,20 @@ namespace MP40.BLL.Services
             return mapper.MapRange<T>(result);
         }
 
+        public object? GetById(Type type, int id)
+        {
+            return this.CallGeneric(nameof(GetById), type, id);
+        }
+
         public T? GetById<T>(int id) where T : class, IBllModel
         {
             object? result = InvokeRepository<T, object>("GetById", id);
             return mapper.Map<T>(result);
+        }
+
+        public bool Create(Type type, object model)
+        {
+            return (bool)this.CallGeneric(nameof(Create), type, model)!;
         }
 
         public bool Create<T>(T model) where T : class, IBllModel
@@ -61,11 +77,21 @@ namespace MP40.BLL.Services
             return true;
         }
 
+        public bool Edit(Type type, int id, object model)
+        {
+            return (bool)this.CallGeneric(nameof(Edit), type, id, model)!;
+        }
+
         public bool Edit<T>(int id, T model) where T : class, IBllModel
         {
             Type mappedType = mapper.GetMappedType(typeof(T));
             InvokeRepository<T>("Edit", id, mapper.Map(mappedType, model)!);
             return true;
+        }
+
+        public bool Delete(Type type, int id)
+        {
+            return (bool)this.CallGeneric(nameof(Delete), type, id)!;
         }
 
         public bool Delete<T>(int id) where T : class, IBllModel

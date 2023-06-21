@@ -2,11 +2,11 @@
 using MP40.BLL.Mapping;
 using MP40.BLL.Services;
 using MP40.MVC.Mapping;
+using MP40.MVC.Models;
 
 namespace MP40.MVC.Controllers
 {
-    // Unused for now
-    public class BaseController : Controller
+    public class BaseController<TModel> : Controller where TModel : class, IViewModel
     {
         protected IBijectiveMapper<MvcMapperProfile> mapper;
         protected IDataService dataService;
@@ -17,20 +17,13 @@ namespace MP40.MVC.Controllers
             this.dataService = dataService;
         }
 
-        /*public IActionResult Index()
-        {
-            return View();
-        }
+		public IActionResult Index()
+		{
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }*/
-    }
+			Type mappedType = mapper.GetMappedType(typeof(TModel));
+			IEnumerable<object>? mappedObjects = dataService.GetAll(mappedType);
+			IEnumerable<TModel> models = mapper.Map<IEnumerable<TModel>>(mappedObjects);
+			return View(models);
+		}
+	}
 }

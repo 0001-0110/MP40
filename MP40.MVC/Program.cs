@@ -43,7 +43,7 @@ namespace MP40.MVC
             application.UseAuthorization();
             application.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Login}/{action=Login}/{id?}");
+                pattern: "{controller=Login}/{action=Index}/{id?}");
 
             application.Run();
 
