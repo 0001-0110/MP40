@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Genre\" />
     <Folder Include="Views\VideoManagement\" />
     <Folder Include="Views\User\" />
     <Folder Include="Views\Video\" />
