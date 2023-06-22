@@ -5,7 +5,7 @@ using MP40.MVC.Models;
 
 namespace MP40.MVC.Controllers.Administration
 {
-	public class TagController : BaseCrudController<Tag>
+	public class TagController : BaseController<Tag>
 	{
 		public TagController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
 	}

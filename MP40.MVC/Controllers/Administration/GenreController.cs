@@ -5,7 +5,7 @@ using MP40.MVC.Models;
 
 namespace MP40.MVC.Controllers.Administration
 {
-    public class GenreController : BaseCrudController<Genre>
+    public class GenreController : BaseController<Genre>
     {
         public GenreController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
     }

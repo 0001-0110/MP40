@@ -74,12 +74,11 @@ namespace MP40.MVC.Controllers
             return RedirectToAction("Index", "Video");
         }
 
-        [HttpPost]
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
 
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
 
         public IActionResult ChangePassword()

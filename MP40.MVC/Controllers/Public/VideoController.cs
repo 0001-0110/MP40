@@ -5,7 +5,7 @@ using MP40.MVC.Models;
 
 namespace MP40.MVC.Controllers.Public
 {
-	public class VideoController : BaseCrudController<Video>
+	public class VideoController : BaseController<Video>
     {
         public VideoController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
     }

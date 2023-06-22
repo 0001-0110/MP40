@@ -5,7 +5,7 @@ using MP40.MVC.Models;
 
 namespace MP40.MVC.Controllers.Administration
 {
-	public class UserController : BaseCrudController<User>
+	public class UserController : BaseController<User>
 	{
 		public UserController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
 	}
