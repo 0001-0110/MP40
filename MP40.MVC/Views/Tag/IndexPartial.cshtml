@@ -1,0 +1,20 @@
+﻿@using MP40.MVC.Models;
+@using MP40.BLL.Models;
+@model Page<MP40.MVC.Models.Tag>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+@foreach (MP40.MVC.Models.Tag model in Model.Models)
+{
+	<tr>
+		<td>
+			@Html.DisplayFor(modelItem => model.Name)
+		</td>
+		<td>
+			@Html.ActionLink("Edit", "Edit", new { id=model.Id, }) |
+			@Html.ActionLink("Delete", "Delete", new { id=model.Id, })
+		</td>
+	</tr>
+}

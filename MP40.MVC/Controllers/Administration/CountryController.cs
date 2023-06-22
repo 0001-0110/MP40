@@ -7,10 +7,6 @@ namespace MP40.MVC.Controllers.Administration
 {
 	public class CountryController : BaseController<Country>
     {
-        public CountryController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService)
-        {
-            this.mapper = mapper;
-            this.dataService = dataService;
-        }
+        public CountryController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
     }
 }

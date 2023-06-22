@@ -1,0 +1,36 @@
+﻿@using MP40.MVC.Models;
+@model MP40.BLL.Models.Page<Tag>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (Tag model in Model?.Models ?? Enumerable.Empty<Tag>())
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => model.Name)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id=model.Id, }) |
+					@Html.ActionLink("Delete", "Delete", new { id=model.Id, })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

@@ -5,7 +5,7 @@ namespace MP40.BLL.Models
 
 	public class Page
 	{
-		protected const int DEFAULTPAGESIZE = 1;
+		protected const int DEFAULTPAGESIZE = 10;
 
 		// The index of the currenlty displayed page
 		public int PageIndex { get; set; }
@@ -35,9 +35,14 @@ namespace MP40.BLL.Models
 	public class Page<TModel> : Page where TModel : class
 	{
 		// The models on the current page
-		public IEnumerable<TModel>? Models { get; set; }
+		private IEnumerable<TModel>? models;
+		public IEnumerable<TModel> Models
+		{
+			get { return models ?? Enumerable.Empty<TModel>(); }
+			set { models = value; }
+		}
 
-		public Page(Page page, IEnumerable<TModel>? models) : base(page.PageIndex, page.PageSize) 
+		public Page(Page page, IEnumerable<TModel>? models) : base(page.PageIndex, page.PageSize)
 		{
 			Models = models;
 			this.CopyDataFrom(page);

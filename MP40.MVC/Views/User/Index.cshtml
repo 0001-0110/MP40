@@ -1,14 +1,14 @@
 ﻿@using MP40.MVC.Models;
 @using MP40.BLL.Models;
-@model Page<MP40.MVC.Models.Country>
+@model Page<MP40.MVC.Models.User>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-<h1>Countries</h1>
+<h1>Users</h1>
 <label>
-	Page: 
+	Page:
 </label>
 <div class="btn-group">
 	@for (int i = 1; i <= Model.PageCount; i++)
@@ -50,7 +50,7 @@
 
 			$.ajax({
 				type: "GET",
-				url: "/Country/IndexPartial",
+				url: "/User/IndexPartial",
 				data: ajaxData,
 				success: function (data) {
 					$("#table-body").html(data);
