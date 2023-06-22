@@ -39,14 +39,13 @@ namespace MP40.DAL.Extensions
 
 		#region Method calling
 
-		public static object? CallGeneric(this object instance, string methodName, Type type, params object[] arguments)
+		public static object? CallGeneric(this object instance, string methodName, Type type, params object?[] arguments)
 		{
 			return CallGeneric(instance, methodName, new Type[] { type, }, arguments);
 		}
 
-		public static object? CallGeneric(this object instance, string methodName, Type[] types, params object[] arguments)
+		public static object? CallGeneric(this object instance, string methodName, Type[] types, params object?[] arguments)
 		{
-			IEnumerable<Type> argumentTypes1 = arguments.Select(argument => argument.GetType());
 			// Testing for types does not work as we can't know the type of the generic methods
 			// Checking the number of parameter should be enough for now
 			return instance.GetType().GetMethods().Single(method => method.Name == methodName

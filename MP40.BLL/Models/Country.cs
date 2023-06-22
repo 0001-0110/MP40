@@ -1,6 +1,6 @@
 ﻿namespace MP40.BLL.Models
 {
-    public partial class Country : IBllModel
+    public partial class Country : IBllModel, INamedModel
     {
         public int Id { get; set; }
 

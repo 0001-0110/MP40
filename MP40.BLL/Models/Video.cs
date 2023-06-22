@@ -1,6 +1,6 @@
 ﻿namespace MP40.BLL.Models
 {
-    public partial class Video : IBllModel
+    public partial class Video : IBllModel, INamedModel, IGenredModel
     {
         public int Id { get; set; }
 

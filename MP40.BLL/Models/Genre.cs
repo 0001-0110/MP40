@@ -1,6 +1,6 @@
 ﻿namespace MP40.BLL.Models
 {
-    public partial class Genre : IBllModel
+    public partial class Genre : IBllModel, INamedModel
     {
         public int Id { get; set; }
 

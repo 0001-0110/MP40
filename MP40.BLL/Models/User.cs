@@ -1,7 +1,7 @@
 ﻿namespace MP40.BLL.Models
 {
     // Should this be in the authentication ?
-    public partial class User : IBllModel
+    public partial class User : IBllModel, IUser
     {
         public int Id { get; set; }
 
@@ -10,6 +10,8 @@
         public DateTime? DeletedAt { get; set; }
 
         public string Username { get; set; } = null!;
+
+        public string Name { get { return Username; } }
 
         public string FirstName { get; set; } = null!;
 
@@ -30,5 +32,7 @@
         public int CountryOfResidenceId { get; set; }
 
         public virtual Country CountryOfResidence { get; set; } = null!;
+
+        public Country Country { get { return CountryOfResidence; } }
     }
 }

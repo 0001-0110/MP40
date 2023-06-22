@@ -5,18 +5,34 @@ using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
-    [Authorize]
-    public class VideoController : ModelController<Video>
-    {
-        public VideoController(ILogger<ModelController<Video>> logger, IDataService dataService) : base(logger, dataService) { }
+	[Authorize]
+	public class VideoController : ModelController<Video>
+	{
+		public VideoController(ILogger<ModelController<Video>> logger, IDataService dataService) : base(logger, dataService) { }
 
-        [HttpGet("[action]")]
-        public ActionResult<IEnumerable<Video>> Search(int page = 0, int pageSize = 0, string? name = null, string? orderedBy = null)
-        {
-            IEnumerable<Video>? result = dataService.SearchVideos(page, pageSize, name, orderedBy);
-            if (result == null)
-                return BadRequest();
-            return Ok(result);
-        }
-    }
+		[HttpGet("[action]")]
+		public ActionResult<IEnumerable<Video>> Search(int page, int pageSize, string? filter = null, string? orderBy = null)
+		{
+			Func<Video, object> ordering = orderBy switch
+			{
+				"id" => video => video.Id,
+				"name" => video => video.Name,
+				"total_time" => video => video.TotalSeconds,
+				_ => throw new NotImplementedException()
+			};
+
+			IEnumerable<Video>? models = dataService.GetPage<Video>(
+				new Page(page, pageSize)
+				{
+					Filter = filter,
+					FilterBy = "name",
+					OrderBy = orderBy,
+				}).Models;
+
+			if (models == null)
+				return BadRequest();
+
+			return Ok(models);
+		}
+	}
 }

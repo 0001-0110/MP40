@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MP40.MVC.Models.Tag>
+﻿@using MP40.MVC.Models;
+@model MP40.BLL.Models.Page<Tag>
 
 @{
 	ViewData["Title"] = "Index";
@@ -13,27 +14,21 @@
 	<thead>
 		<tr>
 			<th>
-				@Html.DisplayNameFor(model => model.Id)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Name)
+				Name
 			</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
+		@foreach (Tag model in Model?.Models ?? Enumerable.Empty<Tag>())
 		{
 			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.Id)
+					@Html.DisplayFor(modelItem => model.Name)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Name)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id=item.Id, }) |
-					@Html.ActionLink("Delete", "Delete", new { id=item.Id, })
+					@Html.ActionLink("Edit", "Edit", new { id=model.Id, }) |
+					@Html.ActionLink("Delete", "Delete", new { id=model.Id, })
 				</td>
 			</tr>
 		}
