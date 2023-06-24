@@ -4,7 +4,7 @@ namespace MP40.BLL.Mapping
 {
     public class BijectiveMapper<TProfile> : Mapper, IBijectiveMapper<TProfile> where TProfile : BijectiveProfile
     {
-        private TProfile profile;
+        private readonly TProfile profile;
 
         public BijectiveMapper(TProfile profile) : base(new MapperConfiguration(config => config.AddProfile(profile)))
         {

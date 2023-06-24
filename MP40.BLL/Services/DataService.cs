@@ -1,8 +1,7 @@
 ﻿using MP40.BLL.Mapping;
 using MP40.BLL.Models;
-using MP40.BLL.Models.Authentication;
-using MP40.DAL.Repositories;
 using MP40.DAL.Extensions;
+using MP40.DAL.Repositories;
 
 namespace MP40.BLL.Services
 {
@@ -158,19 +157,5 @@ namespace MP40.BLL.Services
 		}
 
 		#endregion
-
-		public User? GetUser(Credentials credentials)
-		{
-			bool predicate(DAL.Models.User user) =>
-				user.Username == credentials.Username
-				// TODO Handle password hashing
-				&& user.PwdHash == credentials.Password
-				&& user.IsConfirmed
-				&& !user.DeletedAt.HasValue;
-			// EntityFramework does not like when I call getWhere directly from here, I have no idea why
-			DAL.Models.User? user = InvokeRepository<User, IEnumerable<DAL.Models.User>>("GetAll")?.Where(predicate).SingleOrDefault();
-			//DAL.Models.User? user = InvokeRepository<User, IEnumerable<DAL.Models.User>>("GetWhere", predicate)?.SingleOrDefault();
-			return mapper.Map<User>(user);
-		}
 	}
 }

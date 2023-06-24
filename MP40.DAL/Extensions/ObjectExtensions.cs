@@ -30,7 +30,7 @@ namespace MP40.DAL.Extensions
 
 		public static TDestination To<TDestination>(this object source) where TDestination : class, new()
 		{
-			TDestination destination = new TDestination();
+			TDestination destination = new();
 			destination.CopyDataFrom(source);
 			return destination;
 		}

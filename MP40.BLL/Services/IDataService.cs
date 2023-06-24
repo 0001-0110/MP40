@@ -36,7 +36,5 @@ namespace MP40.BLL.Services
 		bool Delete(Type type, int id);
 
 		bool Delete<T>(int id) where T : class, IBllModel;
-
-		User? GetUser(Credentials credentials);
 	}
 }

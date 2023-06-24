@@ -16,3 +16,39 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.video-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+.video-info h2 {
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+.video-info p {
+    color: #777;
+    margin: 0;
+}
+
+.video-player {
+    margin-top: 16px;
+}

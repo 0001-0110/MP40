@@ -7,16 +7,6 @@
 }
 
 <h1>Genres</h1>
-<label>
-	Page:
-</label>
-<div class="btn-group">
-	@for (int i = 1; i <= Model.PageCount; i++)
-	{
-		string buttonClass = Model.PageIndex == i ? "btn-primary" : "btn-outline-primary";
-		<a asp-action="Index" data-page="@i" class="pager-btn btn @buttonClass">@i</a>
-	}
-</div>
 <p>
 	<a asp-action="Create" class="btn btn-info">Create New</a>
 </p>
@@ -36,6 +26,7 @@
 		<partial name="IndexPartial" />
 	</tbody>
 </table>
+<partial name="ViewPages" />
 
 @section Scripts {
 	<script>

@@ -1,0 +1,14 @@
+﻿@model MP40.MVC.Models.Video
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<partial name="ViewVideoManager" />
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

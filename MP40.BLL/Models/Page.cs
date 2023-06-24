@@ -42,10 +42,23 @@ namespace MP40.BLL.Models
 			set { models = value; }
 		}
 
+		private readonly Dictionary<Type, object> additionalValues;
+
 		public Page(Page page, IEnumerable<TModel>? models) : base(page.PageIndex, page.PageSize)
 		{
-			Models = models;
+			this.models = models;
+			additionalValues = new Dictionary<Type, object>();
 			this.CopyDataFrom(page);
+		}
+
+		public void AddAdditionalValue<T>(T value) where T : class
+		{
+			additionalValues.Add(typeof(T), value);
+		}
+
+		public T? GetAdditionalValue<T>() where T : class
+		{
+			return additionalValues.GetValueOrDefault(typeof(T)) as T;
 		}
 
 		/// <summary>

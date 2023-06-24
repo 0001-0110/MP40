@@ -1,7 +1,9 @@
-﻿@model VMRegister
+﻿@using MP40.BLL.Models.Authentication
+@model RegisterCredentials
 
 @{
     ViewData["Title"] = "Register";
+    IEnumerable<Country> countries = (IEnumerable<Country>)ViewData["Countries"]!;
 }
 
 <h1>Register</h1>
@@ -21,9 +23,9 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email2" class="control-label"></label>
-                <input asp-for="Email2" class="form-control" />
-                <span asp-validation-for="Email2" class="text-danger"></span>
+                <label asp-for="EmailConfirmation" class="control-label"></label>
+                <input asp-for="EmailConfirmation" class="form-control" />
+                <span asp-validation-for="EmailConfirmation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -36,17 +38,30 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CountryId" class="control-label">Country</label>
+                <select asp-for="CountryId" class="form-control">
+                    @foreach (Country country in countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input type="password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password2" class="control-label"></label>
-                <input asp-for="Password2" class="form-control" />
-                <span asp-validation-for="Password2" class="text-danger"></span>
+                <label asp-for="PasswordConfirmation" class="control-label"></label>
+                <input type="password" asp-for="PasswordConfirmation" class="form-control" />
+                <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <a href="@Url.Action("Login", "Login")" class="btn btn-link">Already have an account ? Log in here</a>
             </div>
         </form>
     </div>

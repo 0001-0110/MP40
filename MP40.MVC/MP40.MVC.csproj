@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\VideoManagement\" />
-    <Folder Include="Views\Video\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
   </ItemGroup>
 

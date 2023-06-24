@@ -1,55 +1,90 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using MP40.BLL.Models;
+﻿using MP40.BLL.Models;
 using MP40.BLL.Models.Authentication;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+using System;
 
 namespace MP40.BLL.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private IDataService dataService;
+        private readonly ISecurityService securityService;
+        private readonly IDataService dataService;
 
-        public AuthenticationService(IDataService dataService)
+        public User? User { get; private set; }
+
+        public AuthenticationService(ISecurityService securityService, IDataService dataService)
         {
+            this.securityService = securityService;
             this.dataService = dataService;
         }
 
-        private Tokens GenerateToken(User user)
+        private Tokens GenerateToken(Credentials credentials)
         {
-            // Get secret key bytes
-            byte[] tokenKey = Encoding.UTF8.GetBytes("JWT:TokenSecretKey");
-
-            // Create a token descriptor (represents a token, kind of a "template" for token)
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Expires = DateTime.UtcNow.AddMinutes(10),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(tokenKey),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            // Create token using that descriptor, serialize it and return it
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            string serializedToken = tokenHandler.WriteToken(token);
-
             return new Tokens
             {
-                Username = user.Username,
-                Token = serializedToken,
+                Username = credentials.Username,
+                Token = securityService.GenerateToken(),
             };
         }
 
-        public bool TryAuthenticate(Credentials credentials, out Tokens? tokens)
+        public bool TryAuthenticate(Credentials credentials, out Tokens tokens)
         {
-            tokens = null;
-            User? user = dataService.GetUser(credentials);
-            if (user == null)
+            // If the method return false, there is no need for a token
+            tokens = null!;
+
+            if (!TryAuthenticate(credentials))
                 return false;
 
-            tokens = GenerateToken(user);
+            tokens = GenerateToken(credentials);
             return true;
+        }
+
+        public bool TryAuthenticate(Credentials credentials)
+        {
+            bool predicate(User user) =>
+                user.Username == credentials.Username
+                // TODO Handle password hashing
+                && user.PwdHash == securityService.GetHash(credentials.Password, user.PwdSalt)
+                && user.IsConfirmed
+                && !user.DeletedAt.HasValue;
+
+            User = dataService.GetAll<User>().Where(predicate).SingleOrDefault();
+            return User != null;
+        }
+
+        public bool Register(RegisterCredentials credentials)
+        {
+            // Check that the username is unique
+            if (dataService.GetAll<User>().Any(user => user.Username == credentials.Username))
+                return false;
+
+            // Should not be useful, but just in case
+            if (credentials.Email != credentials.EmailConfirmation)
+                return false;
+
+            // Should not be useful, but just in case
+            if (credentials.Password != credentials.PasswordConfirmation)
+                return false;
+
+            string salt;
+            string hash = securityService.GetHash(credentials.Password, out salt);
+
+            User newUser = new()
+            {
+                CreatedAt = DateTime.UtcNow,
+                DeletedAt = null,
+                Username = credentials.Username,
+                Email = credentials.Email,
+                FirstName = credentials.FirstName,
+                LastName = credentials.LastName,
+                CountryOfResidenceId = credentials.CountryId,
+                // TODO Replace this line once confirmation is implemented
+                IsConfirmed = true,
+                //IsConfirmed = false,
+                PwdHash = hash,
+                PwdSalt = salt,
+            };
+
+            return dataService.Create(newUser);
         }
     }
 }

@@ -1,21 +1,22 @@
 ﻿@using MP40.MVC.Models;
 @using MP40.BLL.Models;
-@model Page<MP40.MVC.Models.User>
+@model Page<MP40.MVC.Models.Video>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-@foreach (MP40.MVC.Models.User model in Model.Models)
+@foreach (MP40.MVC.Models.Video model in Model.Models)
 {
 	<tr>
 		<td>
-			@Html.DisplayFor(modelItem => model.Username)
+			@Html.DisplayFor(modelItem => model.Name)
 		</td>
 		<td>
-			@Html.DisplayFor(modelItem => model.Email)
+			@Html.DisplayFor(modelItem => model.Description)
 		</td>
 		<td>
+			@Html.ActionLink("Details", "Details", new { id=model.Id, })
 			@Html.ActionLink("Edit", "Edit", new { id=model.Id, }) |
 			@Html.ActionLink("Delete", "Delete", new { id=model.Id, })
 		</td>

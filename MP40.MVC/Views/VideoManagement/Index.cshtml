@@ -1,12 +1,12 @@
 ﻿@using MP40.MVC.Models;
 @using MP40.BLL.Models;
-@model Page<MP40.MVC.Models.Country>
+@model Page<MP40.MVC.Models.Video>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-<h1>Countries</h1>
+<h1>Videos</h1>
 <p>
 	<a asp-action="Create" class="btn btn-info">Create New</a>
 </p>
@@ -41,7 +41,7 @@
 
 			$.ajax({
 				type: "GET",
-				url: "/Country/IndexPartial",
+				url: "/VideoManagement/IndexPartial",
 				data: ajaxData,
 				success: function (data) {
 					$("#table-body").html(data);

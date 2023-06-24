@@ -1,0 +1,22 @@
+﻿@using MP40.MVC.Models
+@model Video
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<div class="video-card">
+    <div class="thumbnail">
+        <img src="@Model.ImageContent" alt="Video Thumbnail" />
+    </div>
+    <div class="video-info">
+        <h2>@Model.Name</h2>
+        <p>Date: @Model.CreatedAt</p>
+    </div>
+    <div class="video-player">
+        <video controls>
+            <source src="@Model.StreamingUrl" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>

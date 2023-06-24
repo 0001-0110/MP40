@@ -1,0 +1,12 @@
+﻿@using MP40.MVC.Models;
+@using MP40.BLL.Models;
+@model Page<MP40.MVC.Models.Video>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+@foreach (MP40.MVC.Models.Video video in Model.Models)
+{
+	<partial name="ViewVideoCard" />
+}

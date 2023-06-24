@@ -1,31 +1,15 @@
 ﻿@using MP40.MVC.Models;
 @using MP40.BLL.Models;
-@model Page<MP40.MVC.Models.Country>
+@model Page<MP40.MVC.Models.Video>
 
 @{
 	ViewData["Title"] = "Index";
 }
 
-<h1>Countries</h1>
-<p>
-	<a asp-action="Create" class="btn btn-info">Create New</a>
-</p>
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				Name
-			</th>
-			<th>
-				Description
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody id="table-body">
-		<partial name="IndexPartial" />
-	</tbody>
-</table>
+<h1>Videos</h1>
+<div id="video-grid">
+	<partial name="IndexPartial" />
+</div>
 <partial name="ViewPages" />
 
 @section Scripts {
@@ -41,10 +25,10 @@
 
 			$.ajax({
 				type: "GET",
-				url: "/Country/IndexPartial",
+				url: "/Video/IndexPartial",
 				data: ajaxData,
 				success: function (data) {
-					$("#table-body").html(data);
+					$("#video-grid").html(data);
 
 					$(".pager-btn").removeClass("btn-primary");
 					$(".pager-btn").addClass("btn-outline-primary");

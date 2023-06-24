@@ -10,45 +10,42 @@
 	<title>@ViewData["Title"] - MP40</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	@* TODO Possibly outdated namespace *@
-	<link rel="stylesheet" href="~/MP40.Public.styles.css" asp-append-version="true" />
 </head>
 <body>
 	<header>
 		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
 			<div class="container-fluid">
-				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MP40</a>
+				<a class="navbar-brand" asp-area="" asp-controller="Video" asp-action="Index">MP40</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Video" asp-action="Index">Home</a>
-						</li>
 						@{
-							// TODO Display admin
-							//if (user.)
-							//{
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="VideoManagement" asp-action="Index">Video management</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="Index">Genres</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="Index">Countries</a>
-							</li>
-							//}
-							if (user != null)
+							if (User.Identity?.IsAuthenticated ?? false)
 							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Video" asp-action="Index">Home</a>
+								</li>
+								if (User.IsInRole("Admin"))
+								{
+									<li class="nav-item">
+										<a class="nav-link text-dark" asp-area="" asp-controller="VideoManagement" asp-action="Index">Video management</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="Index">Genres</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Index">Tags</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="Index">Countries</a>
+									</li>
+								}
 								<li class="nav-item">
 									<a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
 								</li>
@@ -67,7 +64,7 @@
 
 	<footer class="border-top footer text-muted">
 		<div class="container">
-			&copy; 2023 - MP40.Public - <a asp-area="" asp-controller="Country" asp-action="Index">Privacy</a>
+			&copy; 2023 - MP40 - <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy</a>
 		</div>
 	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>

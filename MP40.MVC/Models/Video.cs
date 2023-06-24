@@ -18,10 +18,8 @@
 
         public virtual Genre Genre { get; set; } = null!;
 
-        public int? ImageId { get; set; }
+        public string ImageContent { get; set; }
 
-        public virtual Image? Image { get; set; }
-
-        public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
+        public Tag[] TagIds { get; set; }
     }
 }
