@@ -22,6 +22,6 @@ namespace MP40.BLL.Services
         /// <returns><c>true</c> if the authentication is successful; otherwise, <c>false</c>.</returns>
         bool TryAuthenticate(Credentials credentials);
 
-        bool Register(RegisterCredentials credentials);
+        bool Register(RegisterCredentials credentials, out string errorKey, out string errorMessage);
     }
 }

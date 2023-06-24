@@ -6,6 +6,8 @@ namespace MP40.BLL.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private const int PASSWORDMINLENGTH = 6;
+
         private readonly ISecurityService securityService;
         private readonly IDataService dataService;
 
@@ -51,19 +53,41 @@ namespace MP40.BLL.Services
             return User != null;
         }
 
-        public bool Register(RegisterCredentials credentials)
+        public bool Register(RegisterCredentials credentials, out string errorKey, out string errorMessage)
         {
+            errorKey = null!;
+            errorMessage = null!;
+
             // Check that the username is unique
             if (dataService.GetAll<User>().Any(user => user.Username == credentials.Username))
+            {
+                errorKey = nameof(credentials.Username);
+                errorMessage = "Username already taken";
                 return false;
+            }
 
-            // Should not be useful, but just in case
+            // Should not ever happen, but just in case
             if (credentials.Email != credentials.EmailConfirmation)
+            {
+                errorKey = nameof(credentials.Email);
+                errorMessage = "Email addresses must match";
                 return false;
+            }
 
-            // Should not be useful, but just in case
+            // Should not ever happen, but just in case
             if (credentials.Password != credentials.PasswordConfirmation)
+            {
+                errorKey = nameof(credentials.Password);
+                errorMessage = "Passwords must match";
                 return false;
+            }
+
+            if (credentials.Password.Length < PASSWORDMINLENGTH)
+            {
+                errorKey = nameof(credentials.Password);
+                errorMessage = "This password is too short";
+                return false;
+            }
 
             string salt;
             string hash = securityService.GetHash(credentials.Password, out salt);

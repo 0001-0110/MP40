@@ -62,7 +62,7 @@ namespace MP40.MVC.Controllers
 
             if (!authenticationService.TryAuthenticate(credentials))
             {
-                ModelState.AddModelError("Password", "Invalid username or password");
+                ModelState.AddModelError(nameof(credentials.Password), "Invalid username or password");
                 return View(credentials);
             }
 
@@ -88,10 +88,12 @@ namespace MP40.MVC.Controllers
             }
 
             // Create user
-            if (!authenticationService.Register(credentials))
+            string errorKey;
+            string errorMessage;
+            if (!authenticationService.Register(credentials, out errorKey, out errorMessage))
             {
-                // TODO
-                //ModelState.AddModelError();
+                // If an error occured, display it
+                ModelState.AddModelError(errorKey, errorMessage);
                 ViewData["Countries"] = mapper.MapRange<Country>(dataService.GetAll<BLL.Models.Country>());
                 return View(credentials);
             }
