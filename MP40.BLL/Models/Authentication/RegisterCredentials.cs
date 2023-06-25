@@ -20,6 +20,9 @@ namespace MP40.BLL.Models.Authentication
         [DisplayName("Last name")]
         public string LastName { get; set; }
 
+        [DisplayName("Phone number")]
+        public string? Phone { get; set; }
+
         public int CountryId { get; set; }
 
         [DisplayName("Confirm password")]

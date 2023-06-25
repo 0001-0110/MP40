@@ -1,6 +1,7 @@
 ﻿using MP40.BLL.Models;
 using MP40.BLL.Models.Authentication;
 using System;
+using System.Text.RegularExpressions;
 
 namespace MP40.BLL.Services
 {
@@ -74,6 +75,16 @@ namespace MP40.BLL.Services
                 return false;
             }
 
+            // If the field is empty, don't check (this field is not necessary)
+            // TODO This regex is not perfect
+            // Can fail in case of number starting with +00
+            if (credentials.Phone != null && !Regex.IsMatch(credentials.Phone, "^(?:(?:\\+|00)\\d{2}[\\s.-]{0,3}(?:\\(0\\)[\\s.-]{0,3})?|0)[1-9](?:(?:[\\s.-]?\\d{2}){4}|\\d{2}(?:[\\s.-]?\\d{3}){2})$"))
+            {
+                errorKey = nameof(credentials.Phone);
+                errorMessage = "This is not a valid phone number";
+                return false;
+            }
+
             // Should not ever happen, but just in case
             if (credentials.Password != credentials.PasswordConfirmation)
             {
@@ -100,6 +111,7 @@ namespace MP40.BLL.Services
                 Email = credentials.Email,
                 FirstName = credentials.FirstName,
                 LastName = credentials.LastName,
+                Phone = credentials.Phone,
                 CountryOfResidenceId = credentials.CountryId,
                 // TODO Replace this line once confirmation is implemented
                 IsConfirmed = true,
@@ -108,6 +120,7 @@ namespace MP40.BLL.Services
                 PwdSalt = salt,
             };
 
+            User = newUser;
             return dataService.Create(newUser);
         }
     }
