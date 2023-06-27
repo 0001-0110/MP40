@@ -13,8 +13,8 @@ namespace MP40.MVC.Mapping
             CreateBijectiveMap<BLL.Models.Notification, Notification>();
             CreateBijectiveMap<BLL.Models.Tag, Tag>();
             CreateBijectiveMap<BLL.Models.User, User>();
-            CreateBijectiveMap<BLL.Models.Video, Video>(
-                source => source.ForMember(destination => destination.TagIds, source => source.MapFrom(source => source.VideoTags.Select(videoTag => videoTag.Tag.Id))));
+            CreateBijectiveMap<BLL.Models.Video, Video>(source => source
+                .ForMember(destination => destination.TagIds, source => source.MapFrom(source => source.VideoTags.Select(videoTag => videoTag.Tag.Id))));
             // Not sure to keep this one
             CreateBijectiveMap<BLL.Models.VideoTag, VideoTag>();
         }

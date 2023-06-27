@@ -8,5 +8,19 @@
 
 @foreach (MP40.MVC.Models.Video video in Model.Models)
 {
-	<partial name="ViewVideoCard" />
+    <div class="video-card">
+        <div class="thumbnail">
+            <img src="@video.Image" alt="Video Thumbnail" />
+        </div>
+        <div class="video-info">
+            <h2>@video.Name</h2>
+            <p>Date: @video.CreatedAt</p>
+        </div>
+        <div class="video-player">
+            <video controls>
+                <source src="@video.StreamingUrl" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 }

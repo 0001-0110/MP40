@@ -36,12 +36,16 @@ namespace MP40.MVC.Controllers
 			return View(page);
 		}
 
-		public virtual IActionResult IndexPartial(int pageIndex)
+		public virtual IActionResult IndexPartial(int pageIndex, string filterBy, string filter)
 		{
             if (!IsUserAuthorized())
                 return RedirectToAction("Login", "Login");
 
-            Page<TModel> page = GetPage(new Page(pageIndex));
+            Page<TModel> page = GetPage(new Page(pageIndex) 
+			{
+				FilterBy = filterBy,
+				Filter = filter,
+			});
 
 			return PartialView(page);
 		}

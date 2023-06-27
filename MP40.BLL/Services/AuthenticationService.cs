@@ -100,9 +100,7 @@ namespace MP40.BLL.Services
                 return false;
             }
 
-            string salt;
-            string hash = securityService.GetHash(credentials.Password, out salt);
-
+            string hash = securityService.GetHash(credentials.Password, out string salt);
             User newUser = new()
             {
                 CreatedAt = DateTime.UtcNow,

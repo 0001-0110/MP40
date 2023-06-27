@@ -4,9 +4,19 @@
 
 @{
 	ViewData["Title"] = "Index";
+	Model.FilterBy = "name";
 }
 
 <h1>Videos</h1>
+
+<div class="form-group">
+	<label for="filterInput">Filter by Name:</label>
+	<input type="text" id="filterInput" class="form-control" placeholder="Enter video name" value="@Model.Filter" />
+	<div class="input-group-append">
+		<button id="filterButton" class="btn btn-primary filter-btn" type="button">Filter</button>
+	</div>
+</div>
+
 <div id="video-grid">
 	<partial name="IndexPartial" />
 </div>
@@ -14,13 +24,13 @@
 
 @section Scripts {
 	<script>
-		$(".pager-btn").click(function (event) {
+		$(".pager-btn, .filter-btn").click(function (event) {
 			console.log("Pager button clicked");
 			event.preventDefault();
-			var page = $(this).data("page");
-			console.log(page);
 			var ajaxData = {
-				pageIndex: page
+				pageIndex: $(this).data("page"),
+				filter: $("#filterInput").val(),
+				filterBy: "name"
 			};
 
 			$.ajax({

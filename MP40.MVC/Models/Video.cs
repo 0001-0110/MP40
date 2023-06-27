@@ -18,7 +18,7 @@
 
         public virtual Genre Genre { get; set; } = null!;
 
-        public string ImageContent { get; set; }
+        public IFormFile Image { get; set; }
 
         public Tag[] TagIds { get; set; }
     }

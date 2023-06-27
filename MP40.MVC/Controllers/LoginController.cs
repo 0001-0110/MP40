@@ -2,16 +2,15 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using MP40.BLL.Mapping;
-using MP40.MVC.Models;
 using MP40.BLL.Models.Authentication;
 using MP40.BLL.Services;
 using MP40.MVC.Mapping;
-using MP40.MVC.Models.Authentication;
+using MP40.MVC.Models;
 using System.Security.Claims;
 
 namespace MP40.MVC.Controllers
 {
-    public class LoginController : Controller
+	public class LoginController : Controller
     {
         private readonly IBijectiveMapper<MvcMapperProfile> mapper;
         private readonly BLL.Services.IAuthenticationService authenticationService;

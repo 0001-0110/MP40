@@ -54,8 +54,8 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label">Thumbnail</label>
-				<input id="thumbnailInput" type="file" accept="image/*" asp-for="ImageContent" class="form-control" />
-				<span asp-validation-for="ImageContent" class="text-danger"></span>
+				<input id="thumbnailInput" type="file" accept="image/*" asp-for="Image" class="form-control" />
+				<span asp-validation-for="Image" class="text-danger"></span>
 				<div id="thumbnailPreview" />
 			</div>
 			<div class="form-group">
@@ -68,37 +68,3 @@
 <div>
 	<a asp-action="Index">Back to List</a>
 </div>
-
-@section Scripts {
-	<script>
-		// Get the input element and preview container
-		const thumbnailInput = document.getElementById('thumbnailInput');
-		const thumbnailPreview = document.getElementById('thumbnailPreview');
-
-		// Add an event listener for when the input value changes
-		thumbnailInput.addEventListener('change', () => {
-			// Get the selected file
-			const file = thumbnailInput.files[0];
-
-			// Create a FileReader to read the file data
-			const reader = new FileReader();
-
-			// Define the onload event handler to display the preview
-			reader.onload = () => {
-				// Create an image element
-				const image = document.createElement('img');
-				image.src = reader.result;
-				image.classList.add('thumbnail-preview');
-
-				// Clear the previous preview and append the new image
-				thumbnailPreview.innerHTML = '';
-				thumbnailPreview.appendChild(image);
-			};
-
-			// Read the file as a data URL
-			if (file) {
-				reader.readAsDataURL(file);
-			}
-		});
-	</script>
-}

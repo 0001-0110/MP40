@@ -10,6 +10,20 @@
 <p>
 	<a asp-action="Create" class="btn btn-info">Create New</a>
 </p>
+
+<div class="form-group">
+	<label for="filterInput">Filter:</label>
+	<div class="input-group">
+		<select id="filterTypeSelect" class="form-control">
+			<option value="name">Name</option>
+			<option value="genre">Genre</option>
+		</select>
+		<input type="text" id="filterInput" class="form-control" placeholder="Enter filter value" value="@Model.Filter" />
+		<div class="input-group-append">
+			<button id="filterButton" class="btn btn-primary filter-btn" type="button">Filter</button>
+		</div>
+	</div>
+</div>
 <table class="table">
 	<thead>
 		<tr>
@@ -30,13 +44,15 @@
 
 @section Scripts {
 	<script>
-		$(".pager-btn").click(function (event) {
+		$(".pager-btn, .filter-btn").click(function (event) {
 			console.log("Pager button clicked");
 			event.preventDefault();
 			var page = $(this).data("page");
 			console.log(page);
 			var ajaxData = {
-				pageIndex: page
+				pageIndex: page,
+				filter: $("#filterInput").val(),
+				filterBy: $("#filterTypeSelect").val()
 			};
 
 			$.ajax({
