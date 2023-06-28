@@ -6,7 +6,7 @@ namespace MP40.DAL.Repositories
 {
 	public class RepositoryCollection : IRepositoryCollection
 	{
-		Dictionary<Type, IRepository> repositories;
+		private readonly Dictionary<Type, IRepository> repositories;
 
 		public RepositoryCollection(RwaMoviesContext dbContext, IEnumerable<KeyValuePair<Type, Func<RwaMoviesContext, RepositoryCollection, IRepository>>>? factories = null)
 		{

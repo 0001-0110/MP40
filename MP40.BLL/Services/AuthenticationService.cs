@@ -54,6 +54,11 @@ namespace MP40.BLL.Services
             return User != null;
         }
 
+        public bool Register(RegisterCredentials credentials)
+        {
+            return Register(credentials, out _, out _);
+        }
+
         public bool Register(RegisterCredentials credentials, out string errorKey, out string errorMessage)
         {
             errorKey = null!;
@@ -103,7 +108,7 @@ namespace MP40.BLL.Services
             string hash = securityService.GetHash(credentials.Password, out string salt);
             User newUser = new()
             {
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 DeletedAt = null,
                 Username = credentials.Username,
                 Email = credentials.Email,

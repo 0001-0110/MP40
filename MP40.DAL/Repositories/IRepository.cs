@@ -15,10 +15,10 @@ namespace MP40.DAL.Repositories
 
         T? GetById(int id);
 
-        void Create(T entity);
+        bool Create(T entity);
 
-        void Edit(int id, T entity);
+        bool Edit(int id, T entity);
 
-        void Delete(T entity);
+        bool Delete(T entity);
     }
 }

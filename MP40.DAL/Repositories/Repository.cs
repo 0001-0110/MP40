@@ -37,29 +37,48 @@ namespace MP40.DAL.Repositories
             return Values.SingleOrDefault(video => video.Id == id);
         }
 
-        public virtual void Create(T entity)
+        public virtual bool Create(T entity)
         {
-            Values.Add(entity);
-            dbContext.SaveChanges();
+            try
+            {
+                Values.Add(entity);
+                dbContext.SaveChanges();
+            }
+            catch { return false; }
+            return true;
         }
 
-        public virtual void Edit(int id, T edit)
+        public virtual bool Edit(int id, T edit)
         {
-            // TODO handle nulls
-            T? entity = GetById(id);
-            entity?.CopyDataFrom(edit, true);
-            dbContext.SaveChanges();
+            try
+            {
+                // TODO handle nulls
+                T entity = GetById(id)!;
+                entity.CopyDataFrom(edit, true);
+                dbContext.Update(entity);
+                dbContext.SaveChanges();
+            }
+            catch { return false; }
+            return true;
         }
 
-        public virtual void Delete(int id)
+        public virtual bool Delete(int id)
         {
-            Delete(GetById(id)!);
+            return Delete(GetById(id));
         }
 
-        public virtual void Delete(T entity)
+        public virtual bool Delete(T? entity)
         {
-            Values.Remove(entity);
-            dbContext.SaveChanges();
+            if (entity == null)
+                return false;
+
+            try
+            {
+                Values.Remove(entity);
+                dbContext.SaveChanges();
+            }
+            catch { return false; }
+            return true;
         }
     }
 }

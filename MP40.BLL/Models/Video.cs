@@ -22,6 +22,8 @@
 
         public virtual Image? Image { get; set; }
 
+        public IEnumerable<int>? TagIds { get; set; }
+
         public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
     }
 }

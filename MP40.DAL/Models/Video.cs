@@ -1,4 +1,6 @@
-﻿namespace MP40.DAL.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MP40.DAL.Models
 {
     public partial class Video : IDalModel
     {
@@ -21,6 +23,9 @@
         public int? ImageId { get; set; }
 
         public virtual Image? Image { get; set; }
+
+        [NotMapped]
+        public IEnumerable<int>? TagIds { get; set; }
 
         public virtual ICollection<VideoTag> VideoTags { get; set; } = new List<VideoTag>();
     }

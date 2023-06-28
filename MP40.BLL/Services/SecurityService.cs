@@ -34,7 +34,7 @@ namespace MP40.BLL.Services
 			// Create a token descriptor (represents a token, kind of a "template" for token)
 			SecurityTokenDescriptor tokenDescriptor = new()
 			{
-				Expires = DateTime.UtcNow.AddMinutes(10),
+				Expires = DateTime.Now.AddMinutes(10),
 				SigningCredentials = new SigningCredentials(
 					new SymmetricSecurityKey(tokenKey),
 					SecurityAlgorithms.HmacSha256Signature)

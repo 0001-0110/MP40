@@ -129,8 +129,7 @@ namespace MP40.BLL.Services
 		public bool Create<T>(T model) where T : class, IBllModel
 		{
 			Type mappedType = mapper.GetMappedType(typeof(T));
-			InvokeRepository<T>("Create", mapper.Map(mappedType, model)!);
-			return true;
+			return InvokeRepository<T, bool>("Create", mapper.Map(mappedType, model)!);
 		}
 
 		public bool Edit(Type type, int id, object model)
@@ -141,8 +140,7 @@ namespace MP40.BLL.Services
 		public bool Edit<T>(int id, T model) where T : class, IBllModel
 		{
 			Type mappedType = mapper.GetMappedType(typeof(T));
-			InvokeRepository<T>("Edit", id, mapper.Map(mappedType, model)!);
-			return true;
+			return InvokeRepository<T, bool>("Edit", id, mapper.Map(mappedType, model)!);
 		}
 
 		public bool Delete(Type type, int id)
@@ -152,10 +150,22 @@ namespace MP40.BLL.Services
 
 		public bool Delete<T>(int id) where T : class, IBllModel
 		{
-			InvokeRepository<T>("Delete", id);
-			return true;
+			return InvokeRepository<T, bool>("Delete", id);
 		}
 
 		#endregion
+
+		// Soft delete
+		public bool DeleteUser(int id)
+		{
+			User? user = GetById<User>(id);
+
+			if (user == null)
+				return false;
+
+			user.DeletedAt = DateTime.Now;
+			Edit(user.Id, user);
+			return true;
+		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using MP40.BLL.Models;
-using MP40.BLL.Models.Authentication;
 
 namespace MP40.BLL.Services
 {
@@ -36,5 +35,7 @@ namespace MP40.BLL.Services
 		bool Delete(Type type, int id);
 
 		bool Delete<T>(int id) where T : class, IBllModel;
+
+		bool DeleteUser(int id);
 	}
 }
