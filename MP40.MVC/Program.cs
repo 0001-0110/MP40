@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MP40.BLL.Mapping;
 using MP40.BLL.Services;
 using MP40.DAL.DataBaseContext;
+using MP40.DAL.Models;
 using MP40.DAL.Repositories;
 using MP40.MVC.Controllers;
 using MP40.MVC.Mapping;
@@ -27,7 +28,12 @@ namespace MP40.MVC
 
 			builder.Services.AddDbContext<RwaMoviesContext>(options =>
 				{ options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); })
-				.AddScoped<IRepositoryCollection, RepositoryCollection>();
+				.AddScoped<IRepositoryCollection, RepositoryCollection>(options =>
+					{ return new RepositoryCollection(options.GetRequiredService<RwaMoviesContext>(), 
+					new Dictionary<Type, Func<RwaMoviesContext, RepositoryCollection, IRepository>>() 
+					{ 
+						[typeof(Video)] = (dbContext, repositoryCollection) => new VideoRepository(dbContext, repositoryCollection.GetRepository<Image>()!)}); 
+					});
 
 			builder.Services.AddScoped<BllMapperProfile>()
 				.AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>()

@@ -78,14 +78,14 @@ namespace MP40.BLL.Services
 				Func<T, string?> filterBy = page.FilterBy switch
 				{
 					"name" => model => (model as INamedModel)?.Name,
-					"genre" => model => (model as IGenredModel)?.Genre.Name,
+					"genre" => model => (model as IGenredModel)?.Genre?.Name,
 					"firstname" => model => (model as IUser)?.FirstName,
 					"lastname" => model => (model as IUser)?.LastName,
-					"country" => model => (model as IUser)?.Country.Name,
+					"country" => model => (model as IUser)?.Country?.Name,
 					_ => throw new ArgumentException()
 				};
 				// If the cast fails, return false for every object
-				models = models.Where(model => filterBy(model) == page.Filter);
+				models = models.Where(model => filterBy(model)?.Contains(page.Filter, StringComparison.OrdinalIgnoreCase) ?? false);
 			}
 
 			if (page.OrderBy != null)

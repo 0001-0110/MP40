@@ -54,8 +54,8 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label">Thumbnail</label>
-				<input id="thumbnailInput" type="file" accept="image/*" asp-for="Image" class="form-control" />
-				<span asp-validation-for="Image" class="text-danger"></span>
+				<input id="thumbnailInput" style="max-width: 500px; max-height: 300px;" type="file" accept="image/*" asp-for="Image!.Content" class="form-control" />
+				<span asp-validation-for="Image!.Content" class="text-danger"></span>
 				<div id="thumbnailPreview" />
 			</div>
 			<div class="form-group">

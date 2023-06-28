@@ -4,7 +4,9 @@
     {
         public int Id { get; set; }
 
-        public string Content { get; set; } = null!;
+        public IFormFile Content { get; set; } = null!;
+
+        public string? Base64 { get; set; }
 
         public virtual ICollection<Video> Videos { get; set; } = new List<Video>();
     }

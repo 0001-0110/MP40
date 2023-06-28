@@ -24,6 +24,7 @@ body {
 }
 
 .video-card {
+    text-decoration: none; /* Remove underline */
     display: flex;
     flex-direction: column;
     border: 1px solid #ddd;

@@ -11,11 +11,16 @@ namespace MP40.MVC.Controllers.Administration
     {
         public VideoManagementController(IBijectiveMapper<MvcMapperProfile> mapper, IDataService dataService) : base(mapper, dataService) { }
 
+        private void SendTagsAndGenres()
+        {
+			ViewData["Genres"] = mapper.MapRange<Genre>(dataService.GetAll<BLL.Models.Genre>());
+			ViewData["Tags"] = mapper.MapRange<Tag>(dataService.GetAll<BLL.Models.Tag>());
+		}
+
         public override IActionResult Create()
         {
-            ViewData["Genres"] = mapper.MapRange<Genre>(dataService.GetAll<BLL.Models.Genre>());
-            ViewData["Tags"] = mapper.MapRange<Tag>(dataService.GetAll<BLL.Models.Tag>());
-            return base.Create();
+            SendTagsAndGenres();
+			return base.Create();
         }
 
         [HttpPost]
@@ -23,6 +28,12 @@ namespace MP40.MVC.Controllers.Administration
         {
             video.CreatedAt = DateTime.UtcNow;
             return base.Create(video);
+        }
+
+        public override IActionResult Edit(int id)
+        {
+            SendTagsAndGenres();
+            return base.Edit(id);
         }
     }
 }

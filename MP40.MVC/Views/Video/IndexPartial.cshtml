@@ -3,24 +3,19 @@
 @model Page<MP40.MVC.Models.Video>
 
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 
 @foreach (MP40.MVC.Models.Video video in Model.Models)
 {
-    <div class="video-card">
+    <a href="@Url.Action("Details", new { id = video.Id })" class="video-card">
         <div class="thumbnail">
-            <img src="@video.Image" alt="Video Thumbnail" />
+            <img src="data:image/png;base64,@video.Image?.Base64" style="max-width: 500px; max-height: 300px;" alt="Video Thumbnail" />
         </div>
         <div class="video-info">
             <h2>@video.Name</h2>
+            <p>@video.Description</p>
             <p>Date: @video.CreatedAt</p>
         </div>
-        <div class="video-player">
-            <video controls>
-                <source src="@video.StreamingUrl" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
+    </a>
 }
