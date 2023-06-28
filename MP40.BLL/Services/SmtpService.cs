@@ -27,6 +27,7 @@ namespace MP40.BLL.Services
             catch { return false; }
 
             notification.SentAt = DateTime.Now;
+            dataService.Edit(notification.Id, notification);
             return true;
         }
 

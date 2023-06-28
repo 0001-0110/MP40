@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MP40.BLL.Mapping;
 using MP40.BLL.Services;
 using MP40.DAL.DataBaseContext;
 using MP40.DAL.Models;
 using MP40.DAL.Repositories;
-using MP40.MVC.Controllers;
 using MP40.MVC.Mapping;
 
 namespace MP40.MVC
 {
-	internal static class Program
+    internal static class Program
 	{
 		public static void Main(string[] args)
 		{

@@ -23,16 +23,26 @@ namespace MP40.MVC.Controllers
             this.dataService = dataService;
         }
 
-        private async Task LogIn(bool persistent = false)
+        private bool IsAuthenticated()
+        {
+            return User?.Identity?.IsAuthenticated ?? false;
+        }
+
+        private async Task LogIn(string username, bool persistent = false)
         {
             // From Task 12
             // TODO Do we give admin rights to everyone ?
-            IEnumerable<Claim> claims = new Claim[] { new Claim(ClaimTypes.Name, authenticationService.User!.Username), new Claim(ClaimTypes.Role, "Admin") };
+            IEnumerable<Claim> claims = new Claim[] { new Claim(ClaimTypes.Name, username), new Claim(ClaimTypes.Role, "Admin") };
             ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 new AuthenticationProperties() { IsPersistent = persistent });
+        }
+
+        private async Task LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         public IActionResult Index()
@@ -65,7 +75,7 @@ namespace MP40.MVC.Controllers
                 return View(credentials);
             }
 
-            await LogIn(credentials.StaySignedIn);
+            await LogIn(credentials.Username, credentials.StaySignedIn);
 
             return RedirectToAction("Index", "Video");
         }
@@ -95,15 +105,30 @@ namespace MP40.MVC.Controllers
 				return View(credentials);
 			}
 			// Log in user
-			await LogIn();
+            // Now useless since the user can't connect before confirming
+			await LogIn(credentials.Username);
 
             // Redirect to home
             return RedirectToAction("Index", "Video");
         }
 
-        public IActionResult Logout()
+        [Obsolete]
+        [HttpPost("[action]/{securityToken}")]
+        public async Task<IActionResult> Confirm(string securityToken)
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
+            if (IsAuthenticated())
+                await LogOut();
+
+            if (!authenticationService.Confirm(securityToken, out BLL.Models.User? user))
+                return View("Error");
+
+            await LogIn(user!.Username);
+            return RedirectToAction("Index", "Video");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await LogOut();
 
             return RedirectToAction(nameof(Login));
         }

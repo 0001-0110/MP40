@@ -11,8 +11,6 @@ namespace MP40.MVC.Controllers.Public
 
         protected override bool IsUserAuthorized()
         {
-            // TODO Remove temp
-            return true;
             return User.Identity?.IsAuthenticated ?? false;
         }
     }

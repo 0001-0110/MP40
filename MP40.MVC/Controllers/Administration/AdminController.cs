@@ -11,9 +11,8 @@ namespace MP40.MVC.Controllers.Administration
 
         protected override bool IsUserAuthorized()
         {
-            // TODO Remove temp
-            return true;
-            return User.Identity?.IsAuthenticated ?? false && User.IsInRole("Admin"); 
+            return User.Identity?.IsAuthenticated ?? false  
+                && User.IsInRole("Admin"); 
         }
     }
 }

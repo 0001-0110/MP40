@@ -122,24 +122,33 @@ namespace MP40.BLL.Services
                 SecurityToken = securityService.GetSecurityToken(),
             };
 
+            User = newUser;
+
             dataService.Create<Notification>(new()
             {
                 CreatedAt = DateTime.Now,
                 ReceiverEmail = credentials.Email,
                 Subject = "MP40 - New account created",
-                Body = $"Click here to activate your new account: {newUser.SecurityToken}",
+                Body = $"Welcome to MP40 {newUser.Username}!\nClick here to activate your new account from the api: https://localhost:7286/api/Users/Confirm?securityToken={newUser.SecurityToken}",/*\nOr click here to connect start using MP40 right now: https://localhost:7007/Login/Confirm/{newUser.SecurityToken}",*/
             });
 
-            User = newUser;
             return dataService.Create(newUser) != -1;
         }
 
         public bool Confirm(string securityToken)
         {
-            IEnumerable<User> users = dataService.GetAll<User>().Where(user => user.SecurityToken == securityToken);
-            foreach (User user in users)
+            return Confirm(securityToken, out _);
+        }
+
+        public bool Confirm(string securityToken, out User? user)
+        {
+            user = dataService.GetAll<User>().Where(user => user.SecurityToken == securityToken).FirstOrDefault();
+            if (user != null)
+            {
                 user.IsConfirmed = true;
-            return users.Count() > 0;
+                dataService.Edit(user.Id, user);
+            }
+            return user != null;
         }
     }
 }
