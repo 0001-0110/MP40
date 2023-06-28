@@ -74,7 +74,7 @@ namespace MP40.MVC.Controllers
                 return RedirectToAction("Login", "Login");
 
             Type mappedType = mapper.GetMappedType(typeof(TModel));
-			var mappedModel = mapper.Map(mappedType, model);
+			object? mappedModel = mapper.Map(mappedType, model);
 			dataService.Create(mappedType, mappedModel!);
 			return RedirectToAction(nameof(Index));
 		}

@@ -86,18 +86,16 @@ namespace MP40.MVC.Controllers
                 return View(credentials);
             }
 
-            // Create user
-            string errorKey;
-            string errorMessage;
-            if (!authenticationService.Register(credentials, out errorKey, out errorMessage))
-            {
-                // If an error occured, display it
-                ModelState.AddModelError(errorKey, errorMessage);
-                ViewData["Countries"] = mapper.MapRange<Country>(dataService.GetAll<BLL.Models.Country>());
-                return View(credentials);
-            }
-            // Log in user
-            await LogIn();
+			// Create user
+			if (!authenticationService.Register(credentials, out string errorKey, out string errorMessage))
+			{
+				// If an error occured, display it
+				ModelState.AddModelError(errorKey, errorMessage);
+				ViewData["Countries"] = mapper.MapRange<Country>(dataService.GetAll<BLL.Models.Country>());
+				return View(credentials);
+			}
+			// Log in user
+			await LogIn();
 
             // Redirect to home
             return RedirectToAction("Index", "Video");

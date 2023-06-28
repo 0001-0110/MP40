@@ -29,10 +29,13 @@ namespace MP40.MVC
 			builder.Services.AddDbContext<RwaMoviesContext>(options =>
 				{ options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); })
 				.AddScoped<IRepositoryCollection, RepositoryCollection>(options =>
-					{ return new RepositoryCollection(options.GetRequiredService<RwaMoviesContext>(), 
-					new Dictionary<Type, Func<RwaMoviesContext, RepositoryCollection, IRepository>>() 
-					{ 
-						[typeof(Video)] = (dbContext, repositoryCollection) => new VideoRepository(dbContext, repositoryCollection.GetRepository<Image>()!)}); 
+					{
+						return new RepositoryCollection(options.GetRequiredService<RwaMoviesContext>(),
+					new Dictionary<Type, Func<RwaMoviesContext, RepositoryCollection, IRepository>>()
+					{
+						[typeof(User)] = (dbContext, _) => new UserRepository(dbContext),
+						[typeof(Video)] = (dbContext, repositoryCollection) => new VideoRepository(dbContext, repositoryCollection) 
+					}); 
 					});
 
 			builder.Services.AddScoped<BllMapperProfile>()

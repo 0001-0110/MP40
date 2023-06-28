@@ -1,6 +1,5 @@
 ﻿namespace MP40.MVC.Models
 {
-    [Obsolete]
     public partial class VideoTag : IViewModel
     {
         public int Id { get; set; }

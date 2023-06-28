@@ -49,7 +49,14 @@
 				<select asp-for="TagIds" class="form-control" multiple="multiple">
 					@foreach (Tag tag in tags)
 					{
-						<option value="@tag.Id">@tag.Name</option>
+						if (Model?.VideoTags.Any(videoTag => videoTag.TagId == tag.Id) ?? false)
+						{
+							<option value="@tag.Id" selected>@tag.Name</option>
+						}
+						else
+						{
+							<option value="@tag.Id">@tag.Name</option>
+						}
 					}
 				</select>
 				<span asp-validation-for="TagIds" class="text-danger"></span>

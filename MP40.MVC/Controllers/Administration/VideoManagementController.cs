@@ -26,7 +26,7 @@ namespace MP40.MVC.Controllers.Administration
         [HttpPost]
         public override IActionResult Create(Video video)
         {
-            video.CreatedAt = DateTime.UtcNow;
+            video.CreatedAt = DateTime.Now;
             return base.Create(video);
         }
 

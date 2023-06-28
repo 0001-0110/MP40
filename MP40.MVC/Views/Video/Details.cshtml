@@ -61,9 +61,9 @@
 			Tags
 		</dt>
 		<dd class="col-sm-10">
-			@foreach (var tag in Model.TagIds)
+			@foreach (VideoTag videoTag in Model.VideoTags)
 			{
-				<span class="badge badge-primary">@tag.Name</span>
+				<span class="badge badge-primary">@videoTag.Tag.Name</span>
 			}
 		</dd>
 	</dl>
