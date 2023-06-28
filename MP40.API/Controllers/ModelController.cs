@@ -37,7 +37,8 @@ namespace MP40.Controllers
         [HttpPost]
         public ActionResult<T> Post([FromBody] T model)
         {
-            if (!dataService.Create(model))
+            model.Id = dataService.Create(model);
+            if (model.Id == -1)
                 return BadRequest();
             return Ok(model);
         }
@@ -47,6 +48,7 @@ namespace MP40.Controllers
         {
             if (!dataService.Edit(id, model))
                 return NotFound();
+            model.Id = id;
             return Ok(model);
         }
 

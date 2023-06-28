@@ -37,15 +37,15 @@ namespace MP40.DAL.Repositories
             return Values.SingleOrDefault(video => video.Id == id);
         }
 
-        public virtual bool Create(T entity)
+        public virtual int Create(T entity)
         {
             try
             {
                 Values.Add(entity);
                 dbContext.SaveChanges();
             }
-            catch { return false; }
-            return true;
+            catch { return -1; }
+            return entity.Id;
         }
 
         public virtual bool Edit(int id, T edit)

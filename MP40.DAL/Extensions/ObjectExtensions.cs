@@ -14,8 +14,9 @@ namespace MP40.DAL.Extensions
 			foreach (PropertyInfo sourceProperty in sourceProperties)
 			{
 				PropertyInfo? destinationProperty = Array.Find(destinationProperties, property => property.Name == sourceProperty.Name);
-				if (destinationProperty != null && destinationProperty.PropertyType == sourceProperty.PropertyType && destinationProperty.CanWrite)
+				if (destinationProperty != null && destinationProperty.PropertyType == sourceProperty.PropertyType && destinationProperty.CanWrite && destinationProperty.Name.ToLower() != "id")
 				{
+					// Override handling
 					if ((!overrideValues && destinationProperty.GetValue(destination) != default) || sourceProperty.GetValue(source) == default)
 						continue;
 					destinationProperty.SetValue(destination, sourceProperty.GetValue(source));

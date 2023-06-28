@@ -28,10 +28,10 @@ namespace MP40.DAL.Repositories
             return GetAll().SingleOrDefault(video => video.Id == id);
         }
 
-        public override bool Create(Video entity)
+        public override int Create(Video entity)
         {
             imageRepository.Create(entity.Image!);
-            bool result = base.Create(entity);
+            int result = base.Create(entity);
             
             entity.VideoTags = entity.TagIds?.Select(tagId => new VideoTag() { VideoId = entity.Id, TagId = tagId}).ToList() ?? new List<VideoTag>();
             foreach (VideoTag videoTag in entity.VideoTags)
@@ -40,11 +40,12 @@ namespace MP40.DAL.Repositories
             return result;
         }
 
+        // TODO Does not work because
         public override bool Edit(int id, Video entity)
         {
             Video dbEntity = base.GetById(id)!;
 
-            foreach (VideoTag videoTag in dbEntity.VideoTags)
+            foreach (VideoTag videoTag in videoTagRepository.GetAll().Where(videoTag => videoTag.VideoId == id))
                 videoTagRepository.Delete(videoTag);
 
             bool result = base.Edit(id, entity);

@@ -121,15 +121,15 @@ namespace MP40.BLL.Services
 			return mapper.Map<T>(result);
 		}
 
-		public bool Create(Type type, object model)
+		public int Create(Type type, object model)
 		{
-			return (bool)this.CallGeneric(nameof(Create), type, model)!;
+			return (int)this.CallGeneric(nameof(Create), type, model)!;
 		}
 
-		public bool Create<T>(T model) where T : class, IBllModel
+		public int Create<T>(T model) where T : class, IBllModel
 		{
 			Type mappedType = mapper.GetMappedType(typeof(T));
-			return InvokeRepository<T, bool>("Create", mapper.Map(mappedType, model)!);
+			return InvokeRepository<T, int>("Create", mapper.Map(mappedType, model)!);
 		}
 
 		public bool Edit(Type type, int id, object model)

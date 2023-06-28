@@ -124,7 +124,7 @@ namespace MP40.BLL.Services
             };
 
             User = newUser;
-            return dataService.Create(newUser);
+            return dataService.Create(newUser) != -1;
         }
     }
 }

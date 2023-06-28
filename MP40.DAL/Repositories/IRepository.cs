@@ -15,7 +15,7 @@ namespace MP40.DAL.Repositories
 
         T? GetById(int id);
 
-        bool Create(T entity);
+        int Create(T entity);
 
         bool Edit(int id, T entity);
 

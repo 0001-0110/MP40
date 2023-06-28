@@ -2,6 +2,6 @@
 {
     public interface IBllModel
     {
-        int Id { get; }
+        int Id { get; set; }
     }
 }

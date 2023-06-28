@@ -24,9 +24,9 @@ namespace MP40.BLL.Services
 
 		T? GetById<T>(int id) where T : class, IBllModel;
 
-		bool Create(Type type, object model);
+		int Create(Type type, object model);
 
-		bool Create<T>(T model) where T : class, IBllModel;
+		int Create<T>(T model) where T : class, IBllModel;
 
 		bool Edit(Type type, int id, object model);
 
