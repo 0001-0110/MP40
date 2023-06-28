@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -7,6 +8,7 @@ using MP40.BLL.Services;
 using MP40.DAL.DataBaseContext;
 using MP40.DAL.Repositories;
 using System.Text;
+using static MP40.BLL.Services.SecurityService;
 
 namespace MP40
 {
@@ -80,9 +82,25 @@ namespace MP40
             builder.Services.AddScoped<BllMapperProfile>();
             builder.Services.AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>();
             builder.Services.AddScoped<IDataService, DataService>();
-            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-            WebApplication application = builder.Build();
+			#region HashFunction
+
+			static byte[] hashFunction(string password, byte[] salt) =>
+			 KeyDerivation.Pbkdf2(
+					password: password,
+					salt: salt,
+					prf: KeyDerivationPrf.HMACSHA256,
+					iterationCount: 100000,
+					numBytesRequested: 256 / 8);
+
+			#endregion
+
+			builder.Services.AddSingleton(options =>
+			{ return new SecurityService.HashFunction(hashFunction); })
+				.AddScoped<ISecurityService, SecurityService>()
+				.AddScoped<IAuthenticationService, AuthenticationService>();
+
+			WebApplication application = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (application.Environment.IsDevelopment())
