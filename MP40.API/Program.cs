@@ -6,9 +6,9 @@ using Microsoft.OpenApi.Models;
 using MP40.BLL.Mapping;
 using MP40.BLL.Services;
 using MP40.DAL.DataBaseContext;
+using MP40.DAL.Models;
 using MP40.DAL.Repositories;
 using System.Text;
-using static MP40.BLL.Services.SecurityService;
 
 namespace MP40
 {
@@ -71,16 +71,26 @@ namespace MP40
                                 Id = "Bearer"
                             }
                         },
-                        new string[] { }
+                        Array.Empty<string>()
                     }
                 });
             });
 
             builder.Services.AddDbContext<RwaMoviesContext>(options =>
-                { options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); });
-            builder.Services.AddScoped<IRepositoryCollection, RepositoryCollection>();
-            builder.Services.AddScoped<BllMapperProfile>();
-            builder.Services.AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>();
+                { options.UseSqlServer("Name=ConnectionStrings:DefaultConnection"); })
+                .AddScoped<IRepositoryCollection, RepositoryCollection>(options =>
+                {
+                    return new RepositoryCollection(options.GetRequiredService<RwaMoviesContext>(),
+                new Dictionary<Type, Func<RwaMoviesContext, RepositoryCollection, IRepository>>()
+                {
+                    [typeof(User)] = (dbContext, _) => new UserRepository(dbContext),
+                    [typeof(Video)] = (dbContext, repositoryCollection) => new VideoRepository(dbContext, repositoryCollection)
+                });
+                });
+
+            builder.Services.AddScoped<BllMapperProfile>()
+                .AddScoped<IBijectiveMapper<BllMapperProfile>, BijectiveMapper<BllMapperProfile>>();
+
             builder.Services.AddScoped<IDataService, DataService>();
 
 			#region HashFunction
@@ -95,10 +105,12 @@ namespace MP40
 
 			#endregion
 
-			builder.Services.AddSingleton(options =>
+			builder.Services.AddScoped(options =>
 			{ return new SecurityService.HashFunction(hashFunction); })
 				.AddScoped<ISecurityService, SecurityService>()
 				.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            builder.Services.AddScoped<ISmtpService, SmtpService>();
 
 			WebApplication application = builder.Build();
 

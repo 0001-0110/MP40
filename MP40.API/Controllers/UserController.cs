@@ -18,12 +18,20 @@ namespace MP40.Controllers
             this.authenticationService = authenticationService;
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public ActionResult<RegisterCredentials> Register(RegisterCredentials credentials)
         {
             if (!authenticationService.Register(credentials))
                 return BadRequest();
             return Ok(credentials);
+        }
+
+        [HttpPost("[action]")]
+        public ActionResult Confirm(string securityToken)
+        {
+            if (!authenticationService.Confirm(securityToken))
+                return NotFound();
+            return Ok();
         }
     }
 }

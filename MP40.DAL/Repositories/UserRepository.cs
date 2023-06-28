@@ -9,8 +9,7 @@ namespace MP40.DAL.Repositories
 
         public override IEnumerable<User> GetAll()
         {
-            // The second condition shouldn't ever happen, but you never know
-            return base.GetAll().Where(user => user.DeletedAt == null || user.DeletedAt < DateTime.Now);
+            return base.GetAll().Where(user => user.DeletedAt == null);
         }
     }
 }

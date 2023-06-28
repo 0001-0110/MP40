@@ -116,15 +116,30 @@ namespace MP40.BLL.Services
                 LastName = credentials.LastName,
                 Phone = credentials.Phone,
                 CountryOfResidenceId = credentials.CountryId,
-                // TODO Replace this line once confirmation is implemented
-                IsConfirmed = true,
-                //IsConfirmed = false,
+                IsConfirmed = false,
                 PwdHash = hash,
                 PwdSalt = salt,
+                SecurityToken = securityService.GetSecurityToken(),
             };
+
+            dataService.Create<Notification>(new()
+            {
+                CreatedAt = DateTime.Now,
+                ReceiverEmail = credentials.Email,
+                Subject = "MP40 - New account created",
+                Body = $"Click here to activate your new account: {newUser.SecurityToken}",
+            });
 
             User = newUser;
             return dataService.Create(newUser) != -1;
+        }
+
+        public bool Confirm(string securityToken)
+        {
+            IEnumerable<User> users = dataService.GetAll<User>().Where(user => user.SecurityToken == securityToken);
+            foreach (User user in users)
+                user.IsConfirmed = true;
+            return users.Count() > 0;
         }
     }
 }

@@ -7,7 +7,12 @@ namespace MP40.BLL.Services
 {
 	public class SecurityService : ISecurityService
 	{
-		public class HashFunction
+        private static byte[] GenerateSalt()
+        {
+            return RandomNumberGenerator.GetBytes(128 / 8);
+        }
+
+        public class HashFunction
 		{
 			public readonly Func<string, byte[], byte[]> GetHash;
 
@@ -49,11 +54,6 @@ namespace MP40.BLL.Services
 
 		#endregion
 
-		private byte[] GenerateSalt()
-		{
-			return RandomNumberGenerator.GetBytes(128 / 8);
-        }
-
 		public string GetHash(string password, string salt)
 		{
 			return GetHash(password, Convert.FromBase64String(salt));
@@ -70,5 +70,10 @@ namespace MP40.BLL.Services
 			salt = Convert.ToBase64String(byteSalt);
 			return GetHash(password, byteSalt);
 		}
+
+		public string GetSecurityToken()
+		{
+            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(256 / 8));
+        }
 	}
 }

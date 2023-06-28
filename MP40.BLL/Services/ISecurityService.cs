@@ -9,5 +9,7 @@
 		public string GetHash(string password, byte[] salt);
 
 		public string GetHash(string password, out string salt);
+
+		public string GetSecurityToken();
 	}
 }

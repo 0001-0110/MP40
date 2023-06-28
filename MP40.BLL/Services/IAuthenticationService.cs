@@ -25,5 +25,7 @@ namespace MP40.BLL.Services
         bool Register(RegisterCredentials credentials);
 
         bool Register(RegisterCredentials credentials, out string errorKey, out string errorMessage);
+
+        bool Confirm(string securityToken);
     }
 }
