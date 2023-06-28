@@ -6,8 +6,8 @@ using MP40.BLL.Services;
 namespace MP40.Controllers
 {
     [ApiController]
-    [Route("api/[controller]s")]
-    public class UserController : ControllerBase
+	[Route("api/users")]
+	public class UserController : ControllerBase
     {
         private readonly ILogger<ModelController<User>> logger;
         private readonly IAuthenticationService authenticationService;

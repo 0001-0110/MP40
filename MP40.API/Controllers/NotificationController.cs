@@ -4,7 +4,8 @@ using MP40.BLL.Services;
 
 namespace MP40.Controllers
 {
-    public class NotificationController : ModelController<Notification>
+	[Route("api/notifications")]
+	public class NotificationController : ModelController<Notification>
     {
         private readonly ISmtpService smtpService;
 

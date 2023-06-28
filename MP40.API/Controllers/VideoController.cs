@@ -6,6 +6,7 @@ using MP40.BLL.Services;
 namespace MP40.Controllers
 {
 	[Authorize]
+	[Route("api/videos")]
 	public class VideoController : ModelController<Video>
 	{
 		public VideoController(ILogger<ModelController<Video>> logger, IDataService dataService) : base(logger, dataService) { }
