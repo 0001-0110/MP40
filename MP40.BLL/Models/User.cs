@@ -33,6 +33,6 @@
 
         public virtual Country CountryOfResidence { get; set; } = null!;
 
-        public Country Country { get { return CountryOfResidence; } }
+        public int CountryId { get { return CountryOfResidenceId; } }
     }
 }

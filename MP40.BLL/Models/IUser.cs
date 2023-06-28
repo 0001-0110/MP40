@@ -6,6 +6,6 @@
 
 		string LastName { get; }
 
-		Country Country { get; }
+		int CountryId { get; }
 	}
 }

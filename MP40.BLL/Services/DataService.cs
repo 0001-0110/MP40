@@ -65,14 +65,8 @@ namespace MP40.BLL.Services
 		public Page<T> GetPage<T>(Page page) where T : class, IBllModel
 		{
 			IEnumerable<T> models = GetAll<T>();
-			// Compute total number of pages
-			page.PageCount = (int)Math.Ceiling(models.Count() / (decimal)page.PageSize);
 
-			// This should never happen, but you never know
-			if (page.PageIndex > 0 && page.PageSize > 0)
-				// The first page is page 1
-				models = models.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
-
+			// Filter first, so that the number of page is correctly computed
 			if (page.Filter != null)
 			{
 				Func<T, string?> filterBy = page.FilterBy switch
@@ -81,12 +75,26 @@ namespace MP40.BLL.Services
 					"genre" => model => (model as IGenredModel)?.Genre?.Name,
 					"firstname" => model => (model as IUser)?.FirstName,
 					"lastname" => model => (model as IUser)?.LastName,
-					"country" => model => (model as IUser)?.Country?.Name,
+					"country" => model => 
+					{ 
+						int countryId = (model as IUser)?.CountryId ?? -1;
+						return countryId == -1 ? null : GetById<Country>(countryId)?.Name;
+					},
 					_ => throw new ArgumentException()
 				};
 				// If the cast fails, return false for every object
 				models = models.Where(model => filterBy(model)?.Contains(page.Filter, StringComparison.OrdinalIgnoreCase) ?? false);
 			}
+
+			// Even tho the number of pages is the correct one here, the partial views do not update the button count
+			// This is a bug coming from the views, not c#
+			// Compute total number of pages
+			page.PageCount = (int)Math.Ceiling(models.Count() / (decimal)page.PageSize);
+
+			// This should never happen, but you never know
+			if (page.PageIndex > 0 && page.PageSize > 0)
+				// The first page is page 1
+				models = models.Skip((page.PageIndex - 1) * page.PageSize).Take(page.PageSize);
 
 			if (page.OrderBy != null)
 				models = models.OrderBy<T, object?>(

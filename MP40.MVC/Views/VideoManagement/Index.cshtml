@@ -47,10 +47,8 @@
 		$(".pager-btn, .filter-btn").click(function (event) {
 			console.log("Pager button clicked");
 			event.preventDefault();
-			var page = $(this).data("page");
-			console.log(page);
 			var ajaxData = {
-				pageIndex: page,
+				pageIndex: $(this).data("page"),
 				filter: $("#filterInput").val(),
 				filterBy: $("#filterTypeSelect").val()
 			};
