@@ -52,8 +52,9 @@ namespace MP40.DAL.Repositories
         {
             try
             {
-                // TODO handle nulls
-                T entity = GetById(id)!;
+                T? entity = GetById(id);
+                if (entity == null)
+                    return false;
                 entity.CopyDataFrom(edit, true);
                 dbContext.Update(entity);
                 dbContext.SaveChanges();
